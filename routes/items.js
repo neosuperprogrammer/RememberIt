@@ -1,15 +1,108 @@
 var express   = require("express");
 var middleware = require("../middleware");
+var Items = require("../model/items");
 router    = express.Router();
 
 
 router.get("/", middleware.isLoggedIn, function(req, res){
-  if (req.session.user) {
-    console.log('/items : userInfo : ' + req.session.user);
-    res.render('items');
-  } else {
-    res.redirect('/');
-  }
+  var page = req.params.page;
+  console.log("page : " + page);
+  var email = req.session.user.email;
+  Items.find(email, function(err, items){
+    if (err) {
+      res.send('item find error : ' + err);
+    } else {
+      var result = {
+        result: 'success',
+        items: items
+      };
+      res.render('items/index', result);
+    }
+  });
+});
+
+router.get("/page/:page", middleware.isLoggedIn, function(req, res){
+  var page = req.params.page;
+  console.log("page : " + page);
+  var email = req.session.user.email;
+  Items.find(email, function(err, items){
+    if (err) {
+      res.send('item find error : ' + err);
+    } else {
+      var result = {
+        result: 'success',
+        items: items
+      };
+      res.render('items/index', result);
+    }
+  });
+});
+
+router.post("/", middleware.isLoggedIn, function(req, res){
+  var email = req.session.user.email;
+  var item = req.body.item;
+  var itemDesc = req.body.item_desc;
+  console.log("item : " + item + ", desc : " + itemDesc);
+  var newItem = {
+    user_email: email,
+    item: item,
+    item_desc: itemDesc,
+    remember_state: 1
+  };
+  Items.create(newItem, function(err){
+    if (err) {
+      res.send("create item failed : " + err);
+    } else {
+      res.redirect("/items");
+    }
+  });
+});
+
+router.get("/new", middleware.isLoggedIn, function(req, res){
+  res.render('items/new');
+});
+
+router.get("/:id", middleware.checkUserItem, function(req, res){
+  // find the job with provided id
+  var itemId = req.params.id;
+  Items.findById(itemId, function(err, foundItem){
+    if (err) {
+      res.send('item not found : ' + err);
+    } else {
+      if (foundItem) {
+        var result = {
+          result: 'success',
+          item: foundItem
+        };
+        res.render('items/show', result);
+      } else {
+        res.send('item not found');
+      }
+
+    }
+
+  });
+});
+
+router.put("/:id", middleware.checkUserItem, function(req, res){
+  var email = req.session.user.email;
+  var item = req.body.item;
+  var itemDesc = req.body.item_desc;
+  var rememberState = req.body.remember_state;
+  console.log("item : " + item + ", desc : " + itemDesc);
+  var updatedItem = {
+    user_email: email,
+    item: item,
+    item_desc: itemDesc,
+    remember_state: rememberState
+  };
+  Items.findByIdAndUpdate(req.params.id, updatedItem, function(err, item){
+    if (err) {
+      res.send("update item failed : " + err);
+    } else {
+      res.redirect("/items/");
+    }
+  });
 });
 
 

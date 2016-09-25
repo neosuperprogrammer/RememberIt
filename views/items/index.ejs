@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RememberIt</title>
+    <link rel="stylesheet" href="vendors/css/normalize.css">
+    <link rel="stylesheet" href="vendors/css/foundation.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <script type="application/javascript" src="https://code.jquery.com/jquery-2.2.3.js"></script>
+
+    <script>
+        $("document").ready(function() {
+        });
+    </script>
+
+</head>
+<body>
+
+<div class="wrapper">
+    <h1>items</h1>
+    <p><a href="/LogOut">Log Out</a></p>
+    <div class="container">
+        <ul>
+            <% var index = 0; items.forEach(function(item){ %>
+            <li>
+                <a href="/items/<%= item.id %>">
+                    <div>
+                        <%= index + 1 %> )
+                        <%= item.item %>
+                        <span><%= item.item_desc %></span>
+                        &nbsp;&nbsp;state : <%= item.remember_state %>
+                    </div>
+                </a>
+            </li>
+            <% index++ }); %>
+        </ul>
+        <a href="/items/new">new</a>
+    </div>
+</div>
+
+</body>
+</html>
