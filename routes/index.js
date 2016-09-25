@@ -1,5 +1,6 @@
 var express   = require("express")
     router    = express.Router();
+var User = require('../model/user.js')
 
 var bkfd2Password = require("pbkdf2-password");
 var hasher = bkfd2Password();
@@ -7,7 +8,11 @@ var hasher = bkfd2Password();
 
 router.get("/", function(req, res){
   console.log('landing');
-  res.render("landing");
+  if (req.session.user) {
+    res.render('items');
+  } else {
+    res.render("landing");
+  }
 });
 
 router.get("/SignUp", function(req, res){
@@ -21,12 +26,69 @@ router.post("/SignUp", function(req, res){
   var username = req.body.username;
   var password = req.body.password;
   console.log('email : ' + email + ', username : ' + username + ', password : ' + password);
-  hasher({password:password}, function(err, pass, salt, hash){
+  if (User.findOne(email, function (err, user) {
+      if (err) {
 
-
-  });
-
+        res.send(err);
+      } else if (user) {
+        res.send('user already exists');
+      } else {
+        hasher({password:password}, function(err, pass, salt, hash){
+          var newUser = {
+            email: email,
+            username: username,
+            hash: hash,
+            salt: salt,
+            granted: 'yes'
+          };
+          User.create(newUser, function(err){
+            if (err) {
+              res.send(err);
+            } else {
+              req.session.user = newUser;
+              res.redirect('/items');
+            }
+          });
+        });
+      }
+    }));
 });
+
+router.get("/SignIn", function(req, res){
+  console.log('log in');
+  res.render("signin");
+});
+
+router.post("/SignIn", function(req, res){
+  console.log('sign up post');
+  var email = req.body.email;
+  var username = req.body.username;
+  var password = req.body.password;
+  console.log('email : ' + email + ', username : ' + username + ', password : ' + password);
+  if (User.findOne(email, function (err, user) {
+      if (err) {
+
+        res.send(err);
+      } else if (user) {
+        hasher({password:password, salt:user.salt}, function(err, pass, salt, hash){
+          if (hash == user.hash) {
+            req.session.user = user;
+            res.redirect('/items');
+          } else {
+            res.send('password is wrong')
+          }
+        });
+      } else {
+        res.send('user not exists');
+      }
+    }));
+});
+
+router.get('/LogOut',function(req,res){
+  delete req.session.user;
+  res.redirect('/');
+});
+
 
 
 module.exports = router;

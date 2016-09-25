@@ -10,9 +10,13 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "connect-flash": "^0.1.1",
     "ejs": "^2.5.1",
     "express": "^4.14.0",
+    "express-mysql-session": "^1.2.0",
+    "express-session": "^1.14.1",
     "method-override": "^2.3.6",
+    "node-mysql": "^0.4.2",
     "pbkdf2-password": "^1.1.0"
   }
 }
