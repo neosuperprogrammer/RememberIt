@@ -4,13 +4,21 @@ var Items = require('../model/items');
 var contents = {
   checkUserItem: function (req, res, next) {
     if (req.session.user) {
-      next();
       var userEmail = req.session.user.email;
       Items.findById(req.params.id, function (err, foundItem) {
-        if (foundItem.user_email == userEmail) {
-          next();
+        if (err) {
+          console.log(err);
+          res.send(err);
         } else {
-          res.send("You don't have permission to do that!");
+          if (foundItem) {
+            if (foundItem.user_email == userEmail) {
+              next();
+            } else {
+              res.send("You don't have permission to do that!");
+            }
+          } else {
+            res.send("You don't have permission to do that!");
+          }
         }
       });
     } else {
