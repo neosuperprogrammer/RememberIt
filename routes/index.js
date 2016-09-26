@@ -9,6 +9,7 @@ var hasher = bkfd2Password();
 router.get("/", function(req, res){
   console.log('landing');
   if (req.session.user) {
+    console.log(req.session.user);
     res.redirect("/items");
   } else {
     res.render("landing");
