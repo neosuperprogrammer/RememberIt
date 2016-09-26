@@ -21,28 +21,38 @@
 
 <div class="wrapper">
     <h1>items</h1>
-    <p><a href="/LogOut">Log Out</a></p>
+
     <div class="container">
+        <div style="margin-bottom: 20px;height:50px;position: relative;clear: both;">
+            <a href="/items/new" style="margin-right: 100px;position: absolute;right:0px;font-weight: 500;font-size: 1.2em">NEW</a>
+            <a href="/LogOut" style="margin-right: 10px;position: absolute;right:0px;font-weight: 500;font-size: 1.2em">Log Out</a>
+        </div>
         <ul>
             <% var index = 0; items.forEach(function(item){ %>
-            <li>
+            <li style="list-style: none;">
                 <a href="/items/<%= item.id %>">
                     <div>
                         <%= index + 1 %> )
                         <%= item.item %>
-                        <span><%= item.item_desc %></span>
-                        &nbsp;&nbsp;state : <%= item.remember_state %>
-                        &nbsp;&nbsp;date : <%= item.created %>
-                        <form style="display: inline-block" action="/items/<%= item.id %>?_method=DELETE" method="POST">
-                            <button>DELETE</button>
+                        <form style="display: inline-block;position: absolute;right:0px;" action="/items/<%= item.id %>?_method=DELETE" method="POST">
+                            <button  style="color:red;float: right;margin-right: 10px;">DELETE</button>
                         </form>
+                        <textarea rows="2" cols="50" name="item_desc"><%= item.item_desc %></textarea>
+                        <div>
+                            &nbsp;&nbsp;state : <%= item.remember_state %>
+                            <% var d = item.created;
+                                var datestring = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate() + " " + d.getHours() + ":" + d.getMinutes();
+                            %>
+                            &nbsp;&nbsp;date : <%= datestring %>
+                            <% var googleLink = "https://translate.google.co.kr/#en/ko/" +  item.item; %>
+                            <a href ="<%= googleLink %>" style="display: inline-block;position: absolute;right:0px;font-weight: 500;font-size: 1.2em";>Google</a>
+                        </div>
 
                     </div>
                 </a>
             </li>
             <% index++ }); %>
         </ul>
-        <a href="/items/new">new</a>
     </div>
 </div>
 

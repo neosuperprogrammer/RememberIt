@@ -19,7 +19,7 @@ conn.connect(function(err) {
 
 var contents = {
   find: function(userEmail, done) {
-    conn.query('select * from `items` where `user_email` = ? ORDER BY created', [userEmail], function(err, result){
+    conn.query('select * from `items` where `user_email` = ? ORDER BY created DESC', [userEmail], function(err, result){
       if (err){
         console.log(err);
         //req.flash({'error':err.message});
