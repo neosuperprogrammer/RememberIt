@@ -68,8 +68,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/middleware/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.74463516">
-              <caret line="31" column="9" selection-start-line="31" selection-start-column="9" selection-end-line="31" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.5472103">
+              <caret line="15" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -914,7 +914,7 @@
       <workItem from="1473496965291" duration="138000" />
       <workItem from="1474185257376" duration="6244000" />
       <workItem from="1474710397195" duration="17597000" />
-      <workItem from="1474903765302" duration="5370000" />
+      <workItem from="1474903765302" duration="5425000" />
     </task>
     <task id="LOCAL-00001" summary="- working on sign up">
       <created>1474188884998</created>
@@ -970,11 +970,17 @@
       <option name="project" value="LOCAL" />
       <updated>1474909092975</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="- working on item delete">
+      <created>1474909231569</created>
+      <option name="number" value="00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1474909231569</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33604000" />
+    <option name="totallyTimeSpent" value="33659000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="873" extended-state="0" />
@@ -1426,8 +1432,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/middleware/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.74463516">
-          <caret line="31" column="9" selection-start-line="31" selection-start-column="9" selection-end-line="31" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.5472103">
+          <caret line="15" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding />
         </state>
       </provider>
