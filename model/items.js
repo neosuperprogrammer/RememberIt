@@ -19,7 +19,7 @@ conn.connect(function(err) {
 
 var contents = {
   find: function(userEmail, done) {
-    conn.query('select * from `items` where `user_email` = ? ORDER BY created DESC', [userEmail], function(err, result){
+    conn.query('select * from items where user_email = ? ORDER BY created DESC', [userEmail], function(err, result){
       if (err){
         console.log(err);
         //req.flash({'error':err.message});
@@ -30,7 +30,7 @@ var contents = {
     });
   },
   findByPage: function(userEmail, start, limit, done) {
-    conn.query('select * from `items` where `user_email` = ? ORDER BY created DESC LIMIT ?, ?', [userEmail, start, limit], function(err, result){
+    conn.query('select * from items where user_email = ? ORDER BY created DESC LIMIT ?, ?', [userEmail, start, limit], function(err, result){
       if (err){
         console.log(err);
         //req.flash({'error':err.message});
@@ -52,7 +52,7 @@ var contents = {
     });
   },
   findById: function(item, done) {
-    conn.query('select * from `items` where `id` = ?', [item], function(err, result){
+    conn.query('select * from items where id = ?', [item], function(err, result){
       if (err) {
         console.log(err);
         done(err);

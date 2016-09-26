@@ -19,7 +19,7 @@ conn.connect(function(err) {
 
 var contents = {
   findOne: function(email, done) {
-    conn.query('select * from `users` where `email` = ?', [email], function(err, result){
+    conn.query('select * from users where email = ?', [email], function(err, result){
       if (err){
         console.log(err);
         //req.flash({'error':err.message});
