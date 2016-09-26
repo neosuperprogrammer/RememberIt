@@ -2,14 +2,6 @@
 var Items = require('../model/items');
 
 var contents = {
-  isLoggedIn: function (req, res, next) {
-    if (req.session.user) {
-      next();
-    } else {
-      req.flash("error", "You must be signed in to do that");
-      res.redirect("/LogIn");
-    }
-  },
   checkUserItem: function (req, res, next) {
     if (req.session.user) {
       var userEmail = req.session.user.email;
@@ -24,7 +16,17 @@ var contents = {
       console.log("You need to be signed in to do that!");
       res.redirect("/LogIn");
     }
+  },
+
+  isLoggedIn: function (req, res, next) {
+    if (req.session.user) {
+      next();
+    } else {
+      req.flash("error", "You must be signed in to do that");
+      res.redirect("/LogIn");
+    }
   }
+
 };
 
 var exports = module.exports = contents;
