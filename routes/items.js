@@ -16,8 +16,8 @@ router.get("/", middleware.isLoggedIn, function(req, res){
         result: 'success',
         items: items
       };
-      res.send('test');
-      //res.render('items/index', result);
+      //res.send('test');
+      res.render('items/index', result);
     }
   });
 });
