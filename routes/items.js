@@ -11,7 +11,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
     if (err) {
       res.send('item find error : ' + err);
     } else {
-      console.log(">>>>" + items);
+      //console.log(">>>>" + items);
       var result = {
         result: 'success',
         items: items
