@@ -60,6 +60,6 @@ var port = process.env.PORT || 3000;
 //app.listen(port, process.env.IP, function(){
 //  console.log("server started at http://localhost:" + port);
 //});
-app.listen(port, 'localhost', function(){
+app.listen(port, function(){
   console.log("server started at http://localhost:" + port);
 });

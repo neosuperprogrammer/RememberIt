@@ -19,7 +19,18 @@ conn.connect(function(err) {
 
 var contents = {
   find: function(userEmail, done) {
-    conn.query('select * from `items` where `user_email` = ?', [userEmail], function(err, result){
+    conn.query('select * from `items` where `user_email` = ? ORDER BY created', [userEmail], function(err, result){
+      if (err){
+        console.log(err);
+        //req.flash({'error':err.message});
+        done(err);
+      } else {
+        done(err, result);
+      }
+    });
+  },
+  findByPage: function(userEmail, start, limit, done) {
+    conn.query('select * from `items` where `user_email` = ? ORDER BY created DESC LIMIT ?, ?', [userEmail, start, limit], function(err, result){
       if (err){
         console.log(err);
         //req.flash({'error':err.message});
@@ -69,7 +80,18 @@ var contents = {
           done(null, results);
         }
       });
+  },
+  findByIdAndRemove: function(itemId, done) {
+    conn.query('DELETE from items where id = ?', [itemId], function(err, result){
+      if(err) {
+        console.log(err);
+        done(err);
+      } else {
+        done(null);
+      }
+    });
   }
+
 
 };
 

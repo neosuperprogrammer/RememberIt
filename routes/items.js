@@ -43,11 +43,13 @@ router.post("/", middleware.isLoggedIn, function(req, res){
   var item = req.body.item;
   var itemDesc = req.body.item_desc;
   console.log("item : " + item + ", desc : " + itemDesc);
+  created = new Date();
   var newItem = {
     user_email: email,
     item: item,
     item_desc: itemDesc,
-    remember_state: 1
+    remember_state: 1,
+    created: created
   };
   Items.create(newItem, function(err){
     if (err) {
@@ -103,6 +105,16 @@ router.put("/:id", middleware.checkUserItem, function(req, res){
       res.redirect("/items/");
     }
   });
+});
+
+router.delete("/:id", middleware.checkUserItem, function(req, res){
+  Items.findByIdAndRemove(req.params.id, function(err){
+    if(err){
+      console.log(err);
+    } else {
+      res.redirect("/items");
+    }
+  })
 });
 
 

@@ -32,6 +32,11 @@
                         <%= item.item %>
                         <span><%= item.item_desc %></span>
                         &nbsp;&nbsp;state : <%= item.remember_state %>
+                        &nbsp;&nbsp;date : <%= item.created %>
+                        <form style="display: inline-block" action="/items/<%= item.id %>?_method=DELETE" method="POST">
+                            <button>DELETE</button>
+                        </form>
+
                     </div>
                 </a>
             </li>
