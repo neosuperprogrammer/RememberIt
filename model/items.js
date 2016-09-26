@@ -25,6 +25,7 @@ var contents = {
         //req.flash({'error':err.message});
         done(err);
       } else {
+        console.log(result);
         done(err, result);
       }
     });

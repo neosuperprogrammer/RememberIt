@@ -12,11 +12,13 @@ router.get("/", middleware.isLoggedIn, function(req, res){
     if (err) {
       res.send('item find error : ' + err);
     } else {
+      console.log(">>>>" + items);
       var result = {
         result: 'success',
         items: items
       };
-      res.render('items/index', result);
+      res.send('test');
+      //res.render('items/index', result);
     }
   });
 });
