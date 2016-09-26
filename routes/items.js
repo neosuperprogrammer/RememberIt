@@ -62,7 +62,8 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 });
 
 router.get("/new", middleware.isLoggedIn, function(req, res){
-  res.render('items/new');
+  console.log("new item");
+  res.render("items/new");
 });
 
 router.get("/:id", middleware.checkUserItem, function(req, res){
