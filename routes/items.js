@@ -5,9 +5,8 @@ router    = express.Router();
 
 
 router.get("/", middleware.isLoggedIn, function(req, res){
-  var page = req.params.page;
-  console.log("page : " + page);
   var email = req.session.user.email;
+  console.log("email : " + email);
   Items.find(email, function(err, items){
     if (err) {
       res.send('item find error : ' + err);
