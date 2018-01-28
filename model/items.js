@@ -5,7 +5,6 @@ var conn = mysql.createConnection({
   user: "flowgrammer",
   password: "qwer1234",
   database: "remember_it"
-
 });
 
 conn.connect(function(err) {
@@ -13,7 +12,6 @@ conn.connect(function(err) {
     console.error('error connecting: ' + err.stack);
     return;
   }
-
   console.log('connected as id ' + conn.threadId);
 });
 

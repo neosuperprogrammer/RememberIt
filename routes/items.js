@@ -1,8 +1,7 @@
-var express   = require("express");
-var middleware = require("../middleware");
-var Items = require("../model/items");
-router    = express.Router();
-
+var express     = require("express");
+router          = express.Router();
+var middleware  = require("../middleware");
+var Items       = require("../model/items");
 
 router.get("/", middleware.isLoggedIn, function(req, res){
   var email = req.session.user.email;

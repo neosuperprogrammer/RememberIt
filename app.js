@@ -1,10 +1,10 @@
 var express         = require("express");
-var session = require('express-session');
-var MySQLStore = require('express-mysql-session')(session);
+var session         = require('express-session');
+var MySQLStore      = require('express-mysql-session')(session);
 //var mysql = require('mysql');
 var bodyParser      = require("body-parser");
 var methodOverride  = require("method-override");
-var flash = require('connect-flash');
+var flash           = require('connect-flash');
 
 var app             = express();
 
@@ -42,9 +42,6 @@ app.use(session({
 //  console.log('connected as id ' + conn.threadId);
 //});
 
-var indexRoutes   = require("./routes/index");
-var itemsRoutes = require("./routes/items")
-
 app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -52,6 +49,9 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 
 app.use(flash());
+
+var indexRoutes   = require("./routes/index");
+var itemsRoutes = require("./routes/items")
 
 app.use("/", indexRoutes);
 app.use("/items", itemsRoutes);

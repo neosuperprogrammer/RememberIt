@@ -1,6 +1,6 @@
-var express   = require("express")
+var express   = require("express"),
     router    = express.Router();
-var User = require('../model/user.js')
+var User = require('../model/user.js');
 
 var bkfd2Password = require("pbkdf2-password");
 var hasher = bkfd2Password();
@@ -29,7 +29,6 @@ router.post("/SignUp", function(req, res){
   console.log('email : ' + email + ', username : ' + username + ', password : ' + password);
   if (User.findOne(email, function (err, user) {
       if (err) {
-
         res.send(err);
       } else if (user) {
         res.send('user already exists');
