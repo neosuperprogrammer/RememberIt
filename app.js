@@ -56,7 +56,7 @@ var itemsRoutes = require("./routes/items")
 app.use("/", indexRoutes);
 app.use("/items", itemsRoutes);
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 3003;
 //app.listen(port, process.env.IP, function(){
 //  console.log("server started at http://localhost:" + port);
 //});
