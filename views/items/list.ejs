@@ -6,16 +6,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>RememberIt</title>
     <link rel="stylesheet" href="/vendors/css/normalize.css">
-    <link rel="stylesheet" href="/vendors/css/foundation.css">
-
+    <link rel="stylesheet" href="/css/card.css">
+	<style>
+    	#content {
+    	   width : 100%;
+    	}
+    	.card {
+    	    box-sizing:border-box;
+    	}
+    </style>
     <script type="application/javascript" src="https://code.jquery.com/jquery-2.2.3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
+	<script id="card-template" type="text/template">
+		<div class = "card">
+			<div class = "card-title">
+				<div class="card-title-content">{{item}}</div>
 
+			</div>
+			<div class = "card-desc">
+				{{item_desc}}
+			</div>
+		</div>
+	</script>
+    
     <script>
+        var pageToRequest = 1;
         $("document").ready(function() {
-	        <% var pageToRequest = parseInt(page) %>
-			$.getJSON("/api/items/page/<%= pageToRequest %>", {  }, function(data) {
-				$('body').append(data); 
+          var raw_template = $('#card-template').html();
+		  // Complile that into an handlebars template
+		  var template = Handlebars.compile(raw_template);
+		  // Retrieve the placeHolder where the posts will be displayed
+		var placeHolder = $('#content');
+		  
+			$.getJSON("/api/items/page/" + pageToRequest, {  }, function(data) {
+				console.log(data);
+				pageToRequest++;
+				data.items.forEach(function(item) {
+					var html = template(item);
+					placeHolder.append(html); 
+				});
 			});
+  
 // 		   $.ajax({
 //            		<% var pageToRequest = parseInt(page) %>
 //               url: "/api/items/page/<%= pageToRequest %>",
@@ -29,17 +60,29 @@
     </script>
     
     <script>
-//      $(window).scroll(function(){
-//         if ($(window).scrollTop() == $(document).height()-$(window).height()){
-//            $.ajax({
-//            		<% var pageToRequest = parseInt(page) + 1 %>
-//               url: "/items/page/<%= pageToRequest %>",
-//               success: function (data) { $('body').append(data); },
-//               dataType: 'html'
-//            });
-//         }
-//     });
+     $(window).scroll(function(){
+        if ($(window).scrollTop() == $(document).height()-$(window).height()){
+                  var raw_template = $('#card-template').html();
+		  // Complile that into an handlebars template
+		  var template = Handlebars.compile(raw_template);
+		  // Retrieve the placeHolder where the posts will be displayed
+			var placeHolder = $('#content');
+
+			$.getJSON("/api/items/page/" + pageToRequest, {  }, function(data) {
+				console.log(data);
+				pageToRequest++;
+				data.items.forEach(function(item) {
+					var html = template(item);
+					placeHolder.append(html); 
+				});
+			});
+  
+// 	
+        }
+    });
     </script>
+    
+
 
 </head>
 <body>
@@ -47,7 +90,7 @@
 <div class="wrapper">
     <h1 style="text-align: center">items<%= page %></h1>
 
-    <div class="container">
+    <div id="content">
     </div>
 </div>
 
