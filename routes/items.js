@@ -4,38 +4,62 @@ var middleware  = require("../middleware");
 var Items       = require("../model/items");
 
 router.get("/", middleware.isLoggedIn, function(req, res){
-  var email = req.session.user.email;
-  console.log("email : " + email);
-  Items.find(email, function(err, items){
-    if (err) {
-      res.send('item find error : ' + err);
-    } else {
-      //console.log(">>>>" + items);
-      var result = {
-        result: 'success',
-        items: items
-      };
-      //res.send('test');
-      res.render('items/index', result);
-    }
-  });
+	var result = {
+			page: 1
+		  };
+	res.render('items/list', result);
+//   res.redirect("/items/page/1");
+//   var email = req.session.user.email;
+//   console.log("email : " + email);
+//   Items.find(email, function(err, items){
+//     if (err) {
+//       res.send('item find error : ' + err);
+//     } else {
+//       //console.log(">>>>" + items);
+//       var result = {
+//         result: 'success',
+//         items: items
+//       };
+//       //res.send('test');
+//       res.render('items/index', result);
+//     }
+//   });
 });
 
 router.get("/page/:page", middleware.isLoggedIn, function(req, res){
   var page = req.params.page;
   console.log("page : " + page);
   var email = req.session.user.email;
-  Items.find(email, function(err, items){
+  var start = 0;
+  var countPerPage = 20;
+  if (page > 1) {
+	  console.log("page is greater than 1");
+  	start = countPerPage * (page - 1);
+	  console.log("start : " + start);
+  }
+  Items.findByPage(email, start, countPerPage, function(err, items) {
     if (err) {
       res.send('item find error : ' + err);
     } else {
       var result = {
         result: 'success',
+        page: page,
         items: items
       };
       res.render('items/index', result);
     }
   });
+//   Items.find(email, function(err, items){
+//     if (err) {
+//       res.send('item find error : ' + err);
+//     } else {
+//       var result = {
+//         result: 'success',
+//         items: items
+//       };
+//       res.render('items/index', result);
+//     }
+//   });
 });
 
 router.post("/", middleware.isLoggedIn, function(req, res){

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RememberIt</title>
+    <link rel="stylesheet" href="/vendors/css/normalize.css">
+    <link rel="stylesheet" href="/vendors/css/foundation.css">
+
+    <script type="application/javascript" src="https://code.jquery.com/jquery-2.2.3.js"></script>
+
+    <script>
+        $("document").ready(function() {
+	        <% var pageToRequest = parseInt(page) %>
+			$.getJSON("/api/items/page/<%= pageToRequest %>", {  }, function(data) {
+				$('body').append(data); 
+			});
+// 		   $.ajax({
+//            		<% var pageToRequest = parseInt(page) %>
+//               url: "/api/items/page/<%= pageToRequest %>",
+//               success: function (data) { 
+//               	var items = data['items'];
+//               	$('body').append(items); 
+//               },
+//               dataType: 'json'
+//            });
+        });
+    </script>
+    
+    <script>
+//      $(window).scroll(function(){
+//         if ($(window).scrollTop() == $(document).height()-$(window).height()){
+//            $.ajax({
+//            		<% var pageToRequest = parseInt(page) + 1 %>
+//               url: "/items/page/<%= pageToRequest %>",
+//               success: function (data) { $('body').append(data); },
+//               dataType: 'html'
+//            });
+//         }
+//     });
+    </script>
+
+</head>
+<body>
+
+<div class="wrapper">
+    <h1 style="text-align: center">items<%= page %></h1>
+
+    <div class="container">
+    </div>
+</div>
+
+</body>
+</html>

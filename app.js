@@ -51,9 +51,11 @@ app.use(flash());
 
 var indexRoutes   = require("./routes/index");
 var itemsRoutes = require("./routes/items")
+var apiRoutes = require("./routes/api")
 
 app.use("/", indexRoutes);
 app.use("/items", itemsRoutes);
+app.use("/api", apiRoutes);
 
 var port = process.env.PORT || 3003;
 
