@@ -19,11 +19,11 @@ con.connect(function(err) {
     if (err) throw err;
     var buffer = '';
     result.forEach(function(value) {
-    	buffer += value['user_email'] + ', ';
-    	buffer += value['item'] + ', ';
-    	buffer += value['item_desc'] + ', ';
-    	buffer += value['remember_state'] + ', ';
-    	buffer += value['created'] + '\n';
+    	buffer += value['user_email'] + '||';
+    	buffer += value['item'] + '||';
+    	buffer += value['item_desc'] + '||';
+    	buffer += value['remember_state'] + '||';
+    	buffer += value['created'] + '|||||\n';
     });
     console.log(buffer);
     writeFile(buffer);
