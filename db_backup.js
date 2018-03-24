@@ -23,7 +23,7 @@ con.connect(function(err) {
     	buffer += value['item'] + '||';
     	buffer += value['item_desc'] + '||';
     	buffer += value['remember_state'] + '||';
-    	buffer += value['created'] + '|||||\n';
+    	buffer += value['created'] + '|||||\r\n';
     });
     console.log(buffer);
     writeFile(buffer);
