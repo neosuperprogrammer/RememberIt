@@ -7,7 +7,7 @@ var fs = require('fs'),
 var readFile = function(callback) {
 	fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
 		if (!err) {
-// 			console.log('received data: ' + data);
+			console.log('received data: ' + data);
 			callback(data, null);
 		} else {
 			console.log(err);

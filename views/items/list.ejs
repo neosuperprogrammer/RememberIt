@@ -7,46 +7,141 @@
     <title>RememberIt</title>
     <link rel="stylesheet" href="/vendors/css/normalize.css">
     <link rel="stylesheet" href="/css/card.css">
-	<style>
-    	#content {
-    	   width : 100%;
-    	}
-    	.card {
-    	    box-sizing:border-box;
-    	}
+    <style>
+        #content {
+            width: 100%;
+        }
+
+        .card {
+            box-sizing: border-box;
+        }
+
+        .card-title-content {
+            text-decoration: none;
+        }
+
+        .card-desc {
+            text-decoration: none;
+        }
+
+        .memorized {
+            opacity: .5;
+            pointer-events: none;
+        }
     </style>
     <script type="application/javascript" src="https://code.jquery.com/jquery-2.2.3.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
-	<script id="card-template" type="text/template">
-		<div class = "card">
-			<div class = "card-title">
-				<div class="card-title-content">{{item}}</div>
-
-			</div>
-			<div class = "card-desc">
-				{{item_desc}}
-			</div>
-		</div>
-	</script>
-    
     <script>
         var pageToRequest = 1;
-        $("document").ready(function() {
-          var raw_template = $('#card-template').html();
-		  // Complile that into an handlebars template
-		  var template = Handlebars.compile(raw_template);
-		  // Retrieve the placeHolder where the posts will be displayed
-		var placeHolder = $('#content');
-		  
-			$.getJSON("/api/items/page/" + pageToRequest, {  }, function(data) {
-				console.log(data);
-				pageToRequest++;
-				data.items.forEach(function(item) {
-					var html = template(item);
-					placeHolder.append(html); 
-				});
-			});
-  
+        var itemState = 1;
+    </script>
+
+    <script>
+        Handlebars.registerHelper("getDate", function (created) {
+            var d = new Date(created);
+            var datestring = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + " " + d.getHours() + ":" + d.getMinutes();
+            return datestring;
+            // var html = "<ul>";
+            // html += "<li>" + datestring + "</li>";
+            // html += "</ul>";
+            // return html;
+        });
+        Handlebars.registerHelper("getStateTitle", function (id) {
+            if (itemState == 1) {
+                return "memorized";
+            } else {
+                return "forgot";
+            }
+        });
+        var getStateTitle = function (id) {
+
+            console.log("update item : " + id);
+            stopProp
+        }
+    </script>
+    <script id="card-template" type="text/template">
+        <a href="/items/{{id}}">
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-title-content">{{item}}</div>
+                    <button id={{id}} class="card-update-button" style="font-size:15px; height:20px;border-style:none;background-color:transparent; color:#0a0a0a;float: right;margin-right: 30px;">
+                        {{getStateTitle id}}
+                    </button>
+                    <form style="display: inline-block;position: absolute;right:0px;"
+                          action="/items/{{id}}?_method=DELETE" method="POST">
+                        <button style="border-style:none;background-color:transparent; color:#0a0a0a;float: right;margin-right: 10px;">
+                            X
+                        </button>
+                    </form>
+
+
+                </div>
+                <div class="card-desc" style="text-decoration: none">
+                    {{item_desc}}
+                </div>
+
+                <div class="card-state" style="text-decoration: none; float:right; margin-right:20px;clear:both;">
+                    state : {{remember_state}}
+                </div>
+                <div class="card-created" style="text-decoration: none; float:right; margin-right: 20px;clear:both;"    >
+                    date : {{getDate created}}
+                </div>
+
+                <a href="http://endic.naver.com/search.nhn?sLn=kr&searchOption=all&query={{item}}"
+                   style="display: inline-block;position: absolute;right:100px;font-weight: 500;font-size: 1.2em;bottom:20px" ;>Naver</a>
+                <a href="https://translate.google.co.kr/#en/ko/{{item}}"
+                   style="display: inline-block;position: absolute;right:10px;font-weight: 500;font-size: 1.2em;bottom:20px">Google</a>
+            </div>
+        </a>
+    </script>
+
+    <script>
+        $("document").ready(function () {
+
+            var raw_template = $('#card-template').html();
+            // Complile that into an handlebars template
+            var template = Handlebars.compile(raw_template);
+            // Retrieve the placeHolder where the posts will be displayed
+            var placeHolder = $('#content');
+
+            $.getJSON("/api/items/page/" + pageToRequest + "?state=" + itemState, {}, function (data) {
+                console.log(data);
+                pageToRequest++;
+                data.items.forEach(function (item) {
+                    var html = template(item);
+                    placeHolder.append(html);
+                });
+                $(".card-update-button").click
+                (
+                    function (evt)
+                    {
+                        //YOUR CODE HERE
+                        // console.log(evt.target);
+                        var button = $(this);
+                        // $(this).text("hi");
+                        var urlToRequest = "/api/items/memorized/" + evt.target.id;
+                        if (itemState == 2) {
+                            var urlToRequest = "/api/items/forgot/" + evt.target.id;
+                        }
+                        $.ajax({
+                            url: urlToRequest,
+                            success: function (data) {
+                                console.log(data.result);
+                                if (data.result == "success") {
+                                    // console.log(button.parent());
+                                    button.parent().parent().parent().addClass("memorized");
+                                    // button.text('hi');
+                                }
+                            }
+                        });
+
+                        evt.preventDefault();
+                        return false;
+                    }
+                );
+
+            });
+
 // 		   $.ajax({
 //            		<% var pageToRequest = parseInt(page) %>
 //               url: "/api/items/page/<%= pageToRequest %>",
@@ -58,37 +153,144 @@
 //            });
         });
     </script>
-    
-    <script>
-     $(window).scroll(function(){
-        if ($(window).scrollTop() == $(document).height()-$(window).height()){
-                  var raw_template = $('#card-template').html();
-		  // Complile that into an handlebars template
-		  var template = Handlebars.compile(raw_template);
-		  // Retrieve the placeHolder where the posts will be displayed
-			var placeHolder = $('#content');
 
-			$.getJSON("/api/items/page/" + pageToRequest, {  }, function(data) {
-				console.log(data);
-				pageToRequest++;
-				data.items.forEach(function(item) {
-					var html = template(item);
-					placeHolder.append(html); 
-				});
-			});
-  
-// 	
-        }
-    });
+    <script>
+        $(window).scroll(function () {
+            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                var raw_template = $('#card-template').html();
+                // Complile that into an handlebars template
+                var template = Handlebars.compile(raw_template);
+                // Retrieve the placeHolder where the posts will be displayed
+                var placeHolder = $('#content');
+
+                $.getJSON("/api/items/page/" + pageToRequest + "?state=" + itemState, {}, function (data) {
+                    console.log(data);
+                    pageToRequest++;
+                    data.items.forEach(function (item) {
+                        var html = template(item);
+                        placeHolder.append(html);
+                    });
+                    $(".card-update-button").click
+                    (
+                        function (evt)
+                        {
+                            //YOUR CODE HERE
+                            // console.log(evt.target);
+                            var button = $(this);
+                            // $(this).text("hi");
+                            var urlToRequest = "/api/items/memorized/" + evt.target.id;
+                            if (itemState == 2) {
+                                var urlToRequest = "/api/items/forgot/" + evt.target.id;
+                            }
+                            $.ajax({
+                                url: urlToRequest,
+                                success: function (data) {
+                                    console.log(data.result);
+                                    if (data.result == "success") {
+                                        // console.log(button.parent());
+                                        button.parent().parent().parent().addClass("memorized");
+                                        // button.text('hi');
+                                    }
+                                }
+                            });
+
+                            evt.preventDefault();
+                            return false;
+                        }
+                    );
+                });
+
+//
+            }
+        });
     </script>
-    
 
 
 </head>
 <body>
 
+<script>
+    var getTitle = function() {
+        if (itemState == 1) {
+            document.write("Items to memorize");
+        } else {
+            document.write("Items memorized");
+        }
+    }
+    var getUpdateTitle = function() {
+        if (itemState == 1) {
+            document.write("Move to memorized");
+        } else {
+            document.write("Move to memorizes");
+        }
+    }
+    var updateContent = function(evt) {
+        if (itemState == 1) {
+            itemState = 2;
+        } else {
+            itemState = 1;
+        }
+        pageToRequest = 1;
+
+        $('#main-title').text(itemState == 1 ? "Items to memorize" : "Items memorized");
+        $('#update-content-button').text(itemState == 1 ? "Move to memorized" : "Move to memorize");
+        var placeHolder = $('#content');
+        placeHolder.empty();
+        var raw_template = $('#card-template').html();
+        // Complile that into an handlebars template
+        var template = Handlebars.compile(raw_template);
+        // Retrieve the placeHolder where the posts will be displayed
+
+        $.getJSON("/api/items/page/" + pageToRequest + "?state=" + itemState, {}, function (data) {
+            console.log(data);
+            pageToRequest++;
+            data.items.forEach(function (item) {
+                var html = template(item);
+                placeHolder.append(html);
+            });
+            $(".card-update-button").click
+            (
+                function (evt)
+                {
+                    //YOUR CODE HERE
+                    // console.log(evt.target);
+                    var button = $(this);
+                    // $(this).text("hi");
+                    var urlToRequest = "/api/items/memorized/" + evt.target.id;
+                    if (itemState == 2) {
+                        var urlToRequest = "/api/items/forgot/" + evt.target.id;
+                    }
+                    $.ajax({
+                        url: urlToRequest,
+                        success: function (data) {
+                            console.log(data.result);
+                            if (data.result == "success") {
+                                // console.log(button.parent());
+                                button.parent().parent().parent().addClass("memorized");
+                                // button.text('hi');
+                            }
+                        }
+                    });
+
+                    evt.preventDefault();
+                    return false;
+                }
+            );
+        });
+
+
+    }
+
+</script>
+
 <div class="wrapper">
-    <h1 style="text-align: center">items<%= page %></h1>
+    <h1 id="main-title" style="text-align: center"><script>getTitle()</script></h1>
+    <button id="update-content-button" onclick="updateContent()"><script>getUpdateTitle()</script></button>
+    <div style="margin-bottom: 20px;height:50px;position: relative;clear: both;">
+        <a href="/items/new" style="margin-right: 100px;position: absolute;right:0px;font-weight: 500;font-size: 1.2em">NEW</a>
+        <a href="/LogOut" style="margin-right: 10px;position: absolute;right:0px;font-weight: 500;font-size: 1.2em">Log
+            Out</a>
+    </div>
 
     <div id="content">
     </div>
