@@ -229,6 +229,7 @@
         var pageToRequest = 1;
         var itemState = 1;
         var requestEnd = 0;
+        var inRequest = 0;
     </script>
 
     <script>
@@ -420,14 +421,20 @@
 
                     return;
                 }
+
+                if (inRequest == 1) {
+                    return;
+                }
                 var raw_template = $('#card-template').html();
                 // Complile that into an handlebars template
                 var template = Handlebars.compile(raw_template);
                 // Retrieve the placeHolder where the posts will be displayed
                 var placeHolder = $('#content');
                 placeHolder.append("<div class='loading-div col-12'><div class='loading-text'>loading...</div></div>");
-
+                console.log("===============request");
+                inRequest = 1;
                 $.getJSON("/api/items/page/" + pageToRequest + "?state=" + itemState, {}, function (data) {
+                    inRequest = 0;
                     console.log(data);
                     pageToRequest++;
                     console.log("length" + data.items.length);
