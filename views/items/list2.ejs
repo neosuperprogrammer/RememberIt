@@ -51,6 +51,7 @@
         }
     </style>
     <style>
+        a { color: inherit; }
         .card-container {
             box-sizing: border-box;
             height: 320px;
@@ -61,9 +62,9 @@
 
         .card-close-btn {
             position: absolute;
-            right: 10px;
-            top: 10px;
-            background-color: Transparent;
+            right: 5px;
+            top: 5px;
+            background-color: transparent;
             background-repeat: no-repeat;
             border: none;
             cursor: pointer;
@@ -92,6 +93,7 @@
             left: 0;
             right: 0;
             bottom: 0;
+            text-decoration: none;
         }
 
         .card-title {
@@ -146,6 +148,7 @@
             position: absolute;
             left: 10px;
             top: 10px;
+
         }
 
         .card-state-div {
@@ -236,10 +239,10 @@
         <a href="/items/{{id}}">
             <div class="card-container col-3 col-s-6">
 
-                <form style="display: inline-block;position: absolute;right:0px;"
-                      action="/items/{{id}}?_method=DELETE" method="POST">
-                    <button class="card-close-btn">X</button>
-                </form>
+                <!--<form style="display: inline-block;position: absolute;right:0px;"-->
+                      <!--action="/items/{{id}}?_method=DELETE" method="POST">-->
+                    <button class="card-close-btn" id="{{id}}">X</button>
+                <!--</form>-->
 
 
                 <div class="card">
@@ -326,6 +329,25 @@
                         return false;
                     }
                 );
+                $('.card-close-btn').click(function (evt) {
+                    console.log(this);
+                    if (confirm('Delete?')) {
+                        var urlToRequest = "/items/" + evt.target.id + "?_method=DELETE";
+                        console.log("url " + urlToRequest);
+                        $.ajax({
+                            url: urlToRequest,
+                            success: function (data) {
+                                window.location.replace("/items");
+                            },
+                            data:{},
+                            type: 'POST'
+                        });
+
+                    } else {
+                    }
+                    evt.preventDefault();
+                    return false;
+                });
                 $('.card-check-box').change(function(evt) {
                     // this will contain a reference to the checkbox
                     if (this.checked) {
@@ -413,6 +435,25 @@
                             return false;
                         }
                     );
+                    $('.card-close-btn').click(function (evt) {
+                        console.log(this);
+                        if (confirm('Delete?')) {
+                            var urlToRequest = "/items/" + evt.target.id + "?_method=DELETE";
+                            console.log("url " + urlToRequest);
+                            $.ajax({
+                                url: urlToRequest,
+                                success: function (data) {
+                                    window.location.replace("/items");
+                                },
+                                data:{},
+                                type: 'POST'
+                            });
+
+                        } else {
+                        }
+                        evt.preventDefault();
+                        return false;
+                    });
                     $('.card-check-box').change(function(evt) {
                         // this will contain a reference to the checkbox
                         if (this.checked) {
@@ -519,6 +560,25 @@
                     return false;
                 }
             );
+            $('.card-close-btn').click(function (evt) {
+                console.log(this);
+                if (confirm('Delete?')) {
+                    var urlToRequest = "/items/" + evt.target.id + "?_method=DELETE";
+                    console.log("url " + urlToRequest);
+                    $.ajax({
+                        url: urlToRequest,
+                        success: function (data) {
+                            window.location.replace("/items");
+                        },
+                        data:{},
+                        type: 'POST'
+                    });
+
+                } else {
+                }
+                evt.preventDefault();
+                return false;
+            });
             $('.card-check-box').change(function(evt) {
                 // this will contain a reference to the checkbox
                 if (this.checked) {
