@@ -51,6 +51,13 @@
         }
     </style>
     <style>
+        #wrapper {
+            overflow: hidden;
+            z-index: 1000;
+        }
+        #main-content {
+            /*background-color: yellow;*/
+        }
         a { color: inherit; }
         .card-container {
             box-sizing: border-box;
@@ -223,6 +230,42 @@
             transform: translate(-50%, -50%);
         }
     </style>
+    <style>
+        /*.nav {*/
+        /*margin: 0;*/
+        /*height : 100px;*/
+        /*background-color: #3adb76;*/
+        /*}*/
+        .nav-ul {
+            /*position: fixed;*/
+            /*top:0;*/
+            /*width:100%;*/
+
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            background-color: #67b168;
+            overflow: hidden;
+            border:1px solid #447444;
+        }
+        .nav-ul li {
+            float: left;
+        }
+
+        .nav-ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .nav-ul li a:hover {
+            color:black;
+            background-color: white;
+        }
+
+    </style>
     <script type="application/javascript" src="https://code.jquery.com/jquery-2.2.3.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
     <script>
@@ -256,7 +299,7 @@
         }
     </script>
     <script id="card-template" type="text/template">
-        <a href="/items/{{id}}">
+        <a href="/items/{{id}}" style="z-index: -1">
             <div class="card-container col-3 col-s-6">
 
                 <!--<form style="display: inline-block;position: absolute;right:0px;"-->
@@ -656,15 +699,20 @@
 </script>
 
 <div id="wrapper">
-    <h1 id="main-title" style="text-align: center"><script>getTitle()</script></h1>
-    <button id="update-content-button" onclick="updateContent()"><script>getUpdateTitle()</script></button>
-    <div style="margin-bottom: 20px;height:50px;position: relative;clear: both;">
-        <a href="/items/new" style="margin-right: 100px;position: absolute;right:0px;font-weight: 500;font-size: 1.2em">NEW</a>
-        <a href="/LogOut" style="margin-right: 10px;position: absolute;right:0px;font-weight: 500;font-size: 1.2em">Log
-            Out</a>
+    <div class="nav">
+        <ul class="nav-ul">
+            <li><a href="/">&Xi; HOME</a></li>
+            <li style="float: right;"><a href="/LogOut">Logout</a></li>
+            <li style="float: right;"><a href="/items/new">New</a></li>
+        </ul>
     </div>
 
-    <div id="content">
+    <div id="main-content" style="overflow: hidden;">
+        <h1 id="main-title" style="text-align: center"><script>getTitle()</script></h1>
+        <button id="update-content-button" onclick="updateContent()"><script>getUpdateTitle()</script></button>
+
+        <div id="content" style="display: block;float: left;width: 100%">
+        </div>
     </div>
 </div>
 
