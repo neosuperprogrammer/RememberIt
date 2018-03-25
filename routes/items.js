@@ -7,6 +7,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 	var result = {
 			page: 1
 		  };
+
 	res.render('items/list', result);
 //   res.redirect("/items/page/1");
 //   var email = req.session.user.email;
