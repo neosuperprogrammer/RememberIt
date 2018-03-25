@@ -266,6 +266,12 @@
         }
 
     </style>
+    <style>
+        #top-div {
+            position: fixed;
+            left:0;top:300px;background-color: #9d9da0;color: white;padding: 10px;
+        }
+    </style>
     <script type="application/javascript" src="https://code.jquery.com/jquery-2.2.3.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
     <script>
@@ -350,6 +356,11 @@
 
     <script>
         $("document").ready(function () {
+
+            $('#top-div').click(function (evt) {
+                console.log("top");
+                $(window).scrollTop(0);
+            })
 
             var raw_template = $('#card-template').html();
             // Complile that into an handlebars template
@@ -713,6 +724,9 @@
 
         <div id="content" style="display: block;float: left;width: 100%">
         </div>
+    </div>
+    <div id="top-div" style="position: fixed; left:0;top:300px;background-color: #9d9da0;color: white;padding: 10px">
+        TOP
     </div>
 </div>
 
