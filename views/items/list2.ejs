@@ -205,11 +205,30 @@
 
 
     </style>
+    <style>
+        .loading-div {
+            box-sizing: border-box;
+            display: block;
+            position:relative;
+            height:100px;
+            width:100%;
+            /*background-color: red;*/
+            text-align: center;
+            vertical-align: center ;
+        }
+        .loading-text {
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
     <script type="application/javascript" src="https://code.jquery.com/jquery-2.2.3.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
     <script>
         var pageToRequest = 1;
         var itemState = 1;
+        var requestEnd = 0;
     </script>
 
     <script>
@@ -394,15 +413,28 @@
     <script>
         $(window).scroll(function () {
             if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                // console.log('request :' + requestEnd);
+                if (requestEnd == 1) {
+                    // console.log('return');
+                    $('.loading-div').remove();
+
+                    return;
+                }
                 var raw_template = $('#card-template').html();
                 // Complile that into an handlebars template
                 var template = Handlebars.compile(raw_template);
                 // Retrieve the placeHolder where the posts will be displayed
                 var placeHolder = $('#content');
+                placeHolder.append("<div class='loading-div col-12'><div class='loading-text'>loading...</div></div>");
 
                 $.getJSON("/api/items/page/" + pageToRequest + "?state=" + itemState, {}, function (data) {
                     console.log(data);
                     pageToRequest++;
+                    console.log("length" + data.items.length);
+                    if (data.items.length == 0) {
+                        requestEnd = 1;
+                    }
+                    $('.loading-div').remove();
                     data.items.forEach(function (item) {
                         var html = template(item);
                         placeHolder.append(html);
@@ -614,7 +646,7 @@
 
 </script>
 
-<div class="wrapper">
+<div id="wrapper">
     <h1 id="main-title" style="text-align: center"><script>getTitle()</script></h1>
     <button id="update-content-button" onclick="updateContent()"><script>getUpdateTitle()</script></button>
     <div style="margin-bottom: 20px;height:50px;position: relative;clear: both;">
