@@ -6,28 +6,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>RememberIt</title>
     <link rel="stylesheet" href="/vendors/css/normalize.css">
-    <link rel="stylesheet" href="/css/card.css">
+    <link rel="stylesheet" href="/css/list.css">
     <style>
-        #content {
-            width: 100%;
+        [class*="col-"] {
+            float: left;
+            padding: 0px;
+            /*border: 1px solid red;*/
         }
-
-        .card {
-            box-sizing: border-box;
-        }
-
-        .card-title-content {
-            text-decoration: none;
-        }
-
-        .card-desc {
-            text-decoration: none;
-        }
-
-        .memorized {
-            opacity: .5;
-            pointer-events: none;
-        }
+        .col-1 {width: 8.33%;}
+        .col-2 {width: 16.66%;}
+        .col-3 {width: 25%;}
+        .col-4 {width: 33.33%;}
+        .col-5 {width: 41.66%;}
+        .col-6 {width: 50%;}
+        .col-7 {width: 58.33%;}
+        .col-8 {width: 66.66%;}
+        .col-9 {width: 75%;}
+        .col-10 {width: 83.33%;}
+        .col-11 {width: 91.66%;}
+        .col-12 {width: 100%;}
     </style>
     <script type="application/javascript" src="https://code.jquery.com/jquery-2.2.3.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
@@ -61,7 +58,7 @@
     </script>
     <script id="card-template" type="text/template">
         <a href="/items/{{id}}">
-            <div class="card">
+            <div class="card col-3">
                 <div class="card-title">
                     <div class="card-title-content">{{item}}</div>
                     <button id={{id}} class="card-update-button" style="font-size:15px; height:20px;border-style:none;background-color:transparent; color:#0a0a0a;float: right;margin-right: 40px;">
