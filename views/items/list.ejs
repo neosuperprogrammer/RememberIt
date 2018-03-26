@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>RememberIt</title>
     <link rel="stylesheet" href="/vendors/css/normalize.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">    <style>
+
     <!--<link rel="stylesheet" href="/css/list.css">-->
     <style>
         . {
@@ -122,6 +124,13 @@
 
             transform: translate(-50%, -50%);
         }
+        
+		.card-title-edit {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translate(0, -50%);
+    	}
 
         .card-check-box {
             position: absolute;
@@ -305,7 +314,6 @@
         }
     </script>
     <script id="card-template" type="text/template">
-        <a href="/items/{{id}}" style="z-index: -1">
             <div class="card-container col-3 col-s-6">
 
                 <!--<form style="display: inline-block;position: absolute;right:0px;"-->
@@ -317,6 +325,8 @@
                 <div class="card">
                     <div class="card-title">
                         <div class="card-title-content">{{item}}</div>
+						<div class="card-title-edit" id={{id}}><i class="far fa-edit"></i></div>
+
                     </div>
 
                     <div class="card-desc">
@@ -351,7 +361,6 @@
 
                 </div>
             </div>
-        </a>
     </script>
 
     <script>
@@ -374,6 +383,14 @@
                 data.items.forEach(function (item) {
                     var html = template(item);
                     placeHolder.append(html);
+                });
+				$('.card-title-edit').click(function (evt) {
+					var urlToRequest = "/items/" + this.id;
+					console.log("location : " + urlToRequest);
+					window.location.href = urlToRequest;
+// 					window.location.replace(urlToRequest);
+                    evt.preventDefault();
+                    return false;
                 });
                 $(".card-update-button").click
                 (
@@ -502,6 +519,15 @@
                         var html = template(item);
                         placeHolder.append(html);
                     });
+					$('.card-title-edit').click(function (evt) {
+						var urlToRequest = "/items/" + this.id;
+						console.log("location : " + urlToRequest);
+						window.location.href = urlToRequest;
+	// 					window.location.replace(urlToRequest);
+						evt.preventDefault();
+						return false;
+					});
+
                     $(".card-update-button").click
                     (
                         function (evt)
@@ -627,6 +653,14 @@
                 var html = template(item);
                 placeHolder.append(html);
             });
+			$('.card-title-edit').click(function (evt) {
+				var urlToRequest = "/items/" + this.id;
+				console.log("location : " + urlToRequest);
+				window.location.href = urlToRequest;
+// 					window.location.replace(urlToRequest);
+				evt.preventDefault();
+				return false;
+			});
             $(".card-update-button").click
             (
                 function (evt)
