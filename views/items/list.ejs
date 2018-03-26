@@ -510,7 +510,7 @@
             if ($(window).scrollTop() > $(document).height() - $(window).height() - 50) {
                 // console.log('request :' + requestEnd);
                 if (requestEnd == 1) {
-                    // console.log('return');
+                    console.log('request ended');
                     $('.loading-div').remove();
 
                     return;
@@ -676,7 +676,7 @@
         // Complile that into an handlebars template
         var template = Handlebars.compile(raw_template);
         // Retrieve the placeHolder where the posts will be displayed
-
+		requestEnd = 0;
         $.getJSON("/api/items/page/" + pageToRequest + "?state=" + itemState, {}, function (data) {
             console.log(data);
             pageToRequest++;
