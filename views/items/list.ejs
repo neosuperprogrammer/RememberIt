@@ -151,6 +151,20 @@
         .card-desc-content {
             padding: 10px;
         }
+        
+		.card-desc-block {
+        	position: absolute;
+        	top : 0;
+        	left : 0;
+        	right: 0;
+        	bottom: 0;
+            background-color: #fefefe;
+        }
+        
+        .hidden {
+/*         	display : none; */
+        	opacity: 0;
+        }
 
         .card-bottom-content {
             position: relative;
@@ -333,6 +347,8 @@
                         <div class="card-desc-content">
                             {{item_desc}}
                         </div>
+					<div class="card-desc-block">
+					</div>
 
                     </div>
 
@@ -389,6 +405,12 @@
 					console.log("location : " + urlToRequest);
 					window.location.href = urlToRequest;
 // 					window.location.replace(urlToRequest);
+                    evt.preventDefault();
+                    return false;
+                });
+				$('.card-desc-block').click(function (evt) {
+					console.log(this);
+					$(this).toggleClass('hidden');
                     evt.preventDefault();
                     return false;
                 });
@@ -501,7 +523,7 @@
                 var template = Handlebars.compile(raw_template);
                 // Retrieve the placeHolder where the posts will be displayed
                 var placeHolder = $('#content');
-                placeHolder.append("<div class='loading-div col-12'><div class='loading-text'>loading...</div></div>");
+                placeHolder.append("<div class='loading-div col-12'><div class='loading-text'><i class='fas fa-spinner fa-spin'></i></div></div>");
                 $(window).scrollTop($(document).height());
                 console.log("===============request");
                 inRequest = 1;
@@ -519,6 +541,13 @@
                         var html = template(item);
                         placeHolder.append(html);
                     });
+					$('.card-desc-block').click(function (evt) {
+						console.log(this);
+						$(this).toggleClass('hidden');
+						evt.preventDefault();
+						return false;
+					});
+
 					$('.card-title-edit').click(function (evt) {
 						var urlToRequest = "/items/" + this.id;
 						console.log("location : " + urlToRequest);
@@ -653,6 +682,12 @@
                 var html = template(item);
                 placeHolder.append(html);
             });
+			$('.card-desc-block').click(function (evt) {
+				console.log(this);
+				$(this).toggleClass('hidden');
+				evt.preventDefault();
+				return false;
+			});
 			$('.card-title-edit').click(function (evt) {
 				var urlToRequest = "/items/" + this.id;
 				console.log("location : " + urlToRequest);
