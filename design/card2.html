@@ -9,6 +9,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
 
     <link rel="stylesheet" href="normalize.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">    <style>
+
     <style>
         . {
             box-sizing: border-box;
@@ -133,6 +135,14 @@
 
             transform: translate(-50%, -50%);
         }
+        
+		.card-title-edit {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translate(0, -50%);
+    	}
+
 
         .card-check-box {
             position: absolute;
@@ -216,6 +226,8 @@
         }
 
     </style>
+    <style>
+    </style>
 </head>
 <body>
 <div class="container">
@@ -224,6 +236,7 @@
         <div class="card">
             <div class="card-title">
                 <div class="card-title-content">Title</div>
+                <div class="card-title-edit"><i class="far fa-edit"></i></div>
             </div>
 
             <div class="card-desc">
@@ -254,7 +267,7 @@
         </div>
         <div class="card-link">
             <a href="http://endic.naver.com/search.nhn?sLn=kr&searchOption=all&query={{item}}">Naver</a>
-            <a href="https://translate.google.co.kr/#en/ko/{{item}}">Google</a>
+            <a href="https://translate.google.co.kr/#en/ko/{{item}}"><i class="fab fa-google"></i></a>
 
         </div>
 
