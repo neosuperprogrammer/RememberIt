@@ -408,6 +408,7 @@
                     evt.preventDefault();
                     return false;
                 });
+				$('.card-desc-block').unbind('click');
 				$('.card-desc-block').click(function (evt) {
 					console.log(this);
 					$(this).toggleClass('hidden');
@@ -541,6 +542,7 @@
                         var html = template(item);
                         placeHolder.append(html);
                     });
+                    $('.card-desc-block').unbind('click');
 					$('.card-desc-block').click(function (evt) {
 						console.log(this);
 						$(this).toggleClass('hidden');
@@ -682,6 +684,7 @@
                 var html = template(item);
                 placeHolder.append(html);
             });
+            $('.card-desc-block').unbind('click');
 			$('.card-desc-block').click(function (evt) {
 				console.log(this);
 				$(this).toggleClass('hidden');
