@@ -8,7 +8,9 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 			page: 1
 		  };
 
-	res.render('items/list', result);
+// 	res.render('items/list', result);
+// 	res.sendFile(path.join(__dirname+'public/items/list.html'));
+	res.sendFile('public/items/list.html', {root: '.'});
 //   res.redirect("/items/page/1");
 //   var email = req.session.user.email;
 //   console.log("email : " + email);
