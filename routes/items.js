@@ -2,15 +2,18 @@ var express     = require("express");
 router          = express.Router();
 var middleware  = require("../middleware");
 var Items       = require("../model/items");
+var path		= require("path");
 
 router.get("/", middleware.isLoggedIn, function(req, res){
 	var result = {
 			page: 1
 		  };
 
+// 	console.log('__dirname : ' + path.resolve(__dirname));
+// 	console.log('. : ' + path.resolve('.'));
 // 	res.render('items/list', result);
 // 	res.sendFile(path.join(__dirname+'public/items/list.html'));
-	res.sendFile('public/items/list.html', {root: '.'});
+	res.sendFile('public/html/items/list.html', {root: '.'});
 //   res.redirect("/items/page/1");
 //   var email = req.session.user.email;
 //   console.log("email : " + email);
