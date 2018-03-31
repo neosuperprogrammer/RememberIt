@@ -65,30 +65,31 @@
                 // var usersid =  $(this).attr("id");
                 $('.dropdown-content').toggle('show');
                 //post code
-                updateContent();
+                updateContent(1);
             });
             $('.dropdown-menu2').on("click",function(){
                 // var usersid =  $(this).attr("id");
                 $('.dropdown-content').toggle('show');
                 //post code
-                updateContent();
+                updateContent(2);
             });
             $('.dropdown-menu3').on("click",function(){
                 // var usersid =  $(this).attr("id");
                 $('.dropdown-content').toggle('show');
                 //post code
-                updateContent();
+                updateContent(3);
             });
             $('.dropdown-menu4').on("click",function(){
                 // var usersid =  $(this).attr("id");
                 $('.dropdown-content').toggle('show');
                 //post code
-                updateContent();
+                updateContent(4);
             });
             $('#top-div').click(function (evt) {
                 console.log("top");
                 $(window).scrollTop(0);
             });
+            setTitle();
             requestItems();
         });
     </script>
@@ -115,7 +116,7 @@
                     </button>
                     <div class="dropdown-content">
                         <a href="#" class="dropdown-menu1">Don't Know</a>
-                        <a href="#" class="dropdown-menu2">Maybe</a>
+                        <a href="#" class="dropdown-menu2">Maybe Know</a>
                         <a href="#" class="dropdown-menu3">Remembered</a>
                         <a href="#" class="dropdown-menu4">Can't forget</a>
                     </div>
@@ -128,7 +129,7 @@
 
     <div id="main-content" style="overflow: hidden;">
         <h1 id="main-title" style="text-align: center">
-            <script>getTitle()</script>
+            <!--<script>getTitle()</script>-->
         </h1>
         <!--<button id="update-content-button" onclick="updateContent()">-->
             <!--<script>getUpdateTitle()</script>-->
