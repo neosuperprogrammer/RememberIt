@@ -33,13 +33,25 @@
             /*right: 20px;*/
             left:30px;
             width:80%;
-            bottom: 20px;
+            bottom: 15px;
         }
         .card-link a {
             text-decoration: none;
+            float: left;
+            border: 1px solid #73AD21;
+            border-radius: 9px;
+            padding: 5px;
+            text-decoration: none;
+            background-color: #73AD21;
+            color: white;
         }
 
-        .card {
+       .card-link a:hover {
+           background-color: white;
+           color: #73AD21;
+       }
+
+       .card {
             border: 1px solid #73AD21;
             border-radius: 25px;
             padding: 0;
@@ -151,7 +163,7 @@
            position: absolute;
            left: 0;
            top: 10px;
-           width: 20%;
+           width: 25%;
            /*background-color: #693fdb;*/
            display: block;
            float: left;
@@ -162,7 +174,7 @@
            position: absolute;
            right: 0px;
            top: 10px;
-           width: 30%;
+           width: 40%;
            /* background-color: #693fdb; */
        }
         .card-check-text {
