@@ -20,6 +20,16 @@ Handlebars.registerHelper("getStateTitle", function (id) {
         return "forgot";
     }
 });
+
+Handlebars.registerHelper("getDescContent", function (content) {
+    var newContent = content.replace("\r\n", "</br>");
+    newContent = newContent.replace("\n\r", "</br>");
+    newContent = newContent.replace("\r", "</br>");
+    newContent = newContent.replace("\n", "</br>");
+    return newContent;
+});
+
+
 var getStateTitle = function (id) {
 
     console.log("update item : " + id);

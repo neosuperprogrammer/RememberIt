@@ -72,6 +72,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
   var email = req.session.user.email;
   var item = req.body.item;
   var itemDesc = req.body.item_desc;
+  
   console.log("item : " + item + ", desc : " + itemDesc);
   created = new Date();
   var newItem = {
