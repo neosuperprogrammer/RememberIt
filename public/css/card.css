@@ -44,6 +44,7 @@
             text-decoration: none;
             background-color: #73AD21;
             color: white;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
         }
 
        .card-link a:hover {
