@@ -112,6 +112,7 @@
 #top-div {
 	position: fixed;
 	right:0;top:300px;background-color: #9d9da0;color: white;padding: 10px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
 #content {
