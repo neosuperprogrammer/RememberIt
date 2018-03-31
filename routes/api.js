@@ -87,23 +87,66 @@ router.get("/items/memorized/:id", middleware.checkUserItem, function (req, res)
     var id = req.params.id;
 
     console.log("memorized id : " + id);
-    Items.findByIdAndUpdateState(req.params.id, 2, function(err){
-        if(err){
-            console.log(err);
+
+    Items.findById(id, function(err, foundItem){
+        if (err) {
             var result = {
                 result: 'fail',
-                err: err
+                err: 'item not found : ' + err
             };
             res.send(result);
 
         } else {
-            var result = {
-                result: 'success',
-                id: id
-            };
-            res.send(result);
+            if (foundItem) {
+                // var result = {
+                //     result: 'success',
+                //     item: foundItem
+                // };
+                // console.log('found item ' + foundItem);
+                var rememberState = foundItem.remember_state;
+                if (rememberState == 1) {
+                    rememberState = 2;
+                }
+                else if (rememberState == 2) {
+                    rememberState = 3;
+                }
+                else if (rememberState == 3) {
+                    rememberState = 4;
+                }
+                Items.findByIdAndUpdateState(req.params.id, rememberState, function(err){
+                    if(err){
+                        console.log(err);
+                        var result = {
+                            result: 'fail',
+                            err: err
+                        };
+                        res.send(result);
+
+                    } else {
+                        var result = {
+                            result: 'success',
+                            id: id
+                        };
+                        res.send(result);
+                    }
+                })
+
+            } else {
+                var result = {
+                    result: 'fail',
+                    err: 'item not found'
+                };
+                res.send(result);
+
+            }
+
+
         }
-    })
+
+    });
+
+
+
 
 //     console.log("state : " + state);
 //     var email = req.session.user.email;
@@ -146,25 +189,83 @@ router.get("/items/memorized/:id", middleware.checkUserItem, function (req, res)
 
 router.get("/items/forgot/:id", middleware.checkUserItem, function (req, res) {
     var id = req.params.id;
-
     console.log("forgot id : " + id);
-    Items.findByIdAndUpdateState(req.params.id, 1, function(err){
-        if(err){
-            console.log(err);
+
+    Items.findById(id, function(err, foundItem){
+        if (err) {
             var result = {
                 result: 'fail',
-                err: err
+                err: 'item not found : ' + err
             };
             res.send(result);
 
         } else {
-            var result = {
-                result: 'success',
-                id: id
-            };
-            res.send(result);
+            if (foundItem) {
+                // var result = {
+                //     result: 'success',
+                //     item: foundItem
+                // };
+                // console.log('found item ' + foundItem);
+                var rememberState = foundItem.remember_state;
+                if (rememberState == 4) {
+                    rememberState = 3;
+                }
+                else if (rememberState == 3) {
+                    rememberState = 2;
+                }
+                else if (rememberState == 2) {
+                    rememberState = 1;
+                }
+                Items.findByIdAndUpdateState(req.params.id, rememberState, function(err){
+                    if(err){
+                        console.log(err);
+                        var result = {
+                            result: 'fail',
+                            err: err
+                        };
+                        res.send(result);
+
+                    } else {
+                        var result = {
+                            result: 'success',
+                            id: id
+                        };
+                        res.send(result);
+                    }
+                })
+
+            } else {
+                var result = {
+                    result: 'fail',
+                    err: 'item not found'
+                };
+                res.send(result);
+
+            }
+
+
         }
-    })
+
+    });
+
+
+    // Items.findByIdAndUpdateState(req.params.id, 1, function(err){
+    //     if(err){
+    //         console.log(err);
+    //         var result = {
+    //             result: 'fail',
+    //             err: err
+    //         };
+    //         res.send(result);
+    //
+    //     } else {
+    //         var result = {
+    //             result: 'success',
+    //             id: id
+    //         };
+    //         res.send(result);
+    //     }
+    // })
 
 //     console.log("state : " + state);
 //     var email = req.session.user.email;

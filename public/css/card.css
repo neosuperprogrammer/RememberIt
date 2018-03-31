@@ -78,13 +78,6 @@
             transform: translate(0, -50%);
     	}
 
-        .card-check-box {
-            position: absolute;
-            right:20px;
-            top : 10px;
-
-        }
-
         .card-desc {
             display: block;
             position: relative;
@@ -149,11 +142,19 @@
             /*background-color: #693fdb;*/
         }
 
-        .card-check-div {
+       .card-forget-check-div {
+           position: absolute;
+           right: 40%;
+           top: 10px;
+           width: 30%;
+           /*background-color: #693fdb;*/
+       }
+
+       .card-remember-check-div {
             position: absolute;
             right: 0px;
             top: 10px;
-            width: 40%;
+            width: 30%;
             /*background-color: #693fdb;*/
         }
         .card-check-text {
@@ -164,13 +165,31 @@
             top: 0px;
 
         }
-        .card-check-box {
-            display: block;
-            position: absolute;
-            right: 0px;
-            bottom: 0px;
-            background-color: #d4db1f;
-            transform: translate(-10%, -60%);
+
+       /*.card-check-box {*/
+           /*position: absolute;*/
+           /*right:20px;*/
+           /*top : 10px;*/
+
+       /*}*/
+
+       .card-forget-check-box {
+           display: block;
+           position: absolute;
+           top : 10px;
+           right: 0px;
+           background-color: #d4db1f;
+           transform: translate(-10%, -60%);
+
+       }
+
+       .card-remember-check-box {
+           display: block;
+           position: absolute;
+           top : 10px;
+           right: 0px;
+           background-color: #d4db1f;
+           transform: translate(-10%, -60%);
 
         }
 

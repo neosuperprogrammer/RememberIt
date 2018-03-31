@@ -23,7 +23,7 @@ Handlebars.registerHelper("getStateTitle", function (id) {
 var getStateTitle = function (id) {
 
     console.log("update item : " + id);
-    stopProp
+    // stopProp
 }
 
 
@@ -114,7 +114,9 @@ var requestItems = function () {
                 $.ajax({
                     url: urlToRequest,
                     success: function (data) {
-                        window.location.replace("/items");
+                        // window.location.replace("/items");
+                        // requestItems();
+                        updateContent();
                     },
                     data: {},
                     type: 'POST'
@@ -125,15 +127,15 @@ var requestItems = function () {
             evt.preventDefault();
             return false;
         });
-        $('.card-check-box').change(function (evt) {
+        $('.card-forget-check-box').change(function (evt) {
             // this will contain a reference to the checkbox
             if (this.checked) {
                 console.log('checked');
                 var button = $(this);
-                var urlToRequest = "/api/items/memorized/" + evt.target.id;
-                if (itemState == 2) {
+                // var urlToRequest = "/api/items/memorized/" + evt.target.id;
+                // if (itemState == 2) {
                     var urlToRequest = "/api/items/forgot/" + evt.target.id;
-                }
+                // }
                 $.ajax({
                     url: urlToRequest,
                     success: function (data) {
@@ -153,6 +155,42 @@ var requestItems = function () {
                 console.log('unchecked');
             }
         });
+        $('.card-remember-check-box').change(function (evt) {
+            // this will contain a reference to the checkbox
+            if (this.checked) {
+                console.log('checked');
+                var button = $(this);
+                var urlToRequest = "/api/items/memorized/" + evt.target.id;
+                // if (itemState == 2) {
+                //     var urlToRequest = "/api/items/forgot/" + evt.target.id;
+                // }
+                $.ajax({
+                    url: urlToRequest,
+                    success: function (data) {
+                        console.log(data.result);
+                        if (data.result == "success") {
+                            // console.log(button.parent());
+                            button.parent().parent().parent().parent().parent().addClass("memorized");
+                            // button.text('hi');
+                        }
+                    }
+                });
+
+                evt.preventDefault();
+                return false;
+
+            } else {
+                console.log('unchecked');
+            }
+        });
+        if (itemState == 1) {
+            $('.card-forget-check-box').prop('disabled', true);
+        }
+        if (itemState == 4) {
+            $('.card-remember-check-box').prop('disabled', true);
+        }
+
+
     });
 };
 
@@ -185,7 +223,9 @@ var updateContent = function (state) {
     // } else {
     //     itemState = 1;
     // }
-    itemState = state;
+    if (state != undefined) {
+        itemState = state;
+    }
     pageToRequest = 1;
 
     // $('#main-title').text(itemState == 1 ? "Items to memorize" : "Items memorized");
