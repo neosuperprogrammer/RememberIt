@@ -40,15 +40,28 @@ var contents = {
         });
     },
     findByPageAndState: function (userEmail, start, limit, state, done) {
-        conn.query('select * from items where user_email = ? and remember_state = ? ORDER BY remembered ASC LIMIT ?, ?', [userEmail, state, start, limit], function (err, result) {
-            if (err) {
-                console.log(err);
-                //req.flash({'error':err.message});
-                done(err);
-            } else {
-                done(err, result);
-            }
-        });
+        if (state == 1) {
+            conn.query('select * from items where user_email = ? and remember_state = ? ORDER BY created DESC LIMIT ?, ?', [userEmail, state, start, limit], function (err, result) {
+                if (err) {
+                    console.log(err);
+                    //req.flash({'error':err.message});
+                    done(err);
+                } else {
+                    done(err, result);
+                }
+            });
+        }
+        else {
+            conn.query('select * from items where user_email = ? and remember_state = ? ORDER BY remembered ASC LIMIT ?, ?', [userEmail, state, start, limit], function (err, result) {
+                if (err) {
+                    console.log(err);
+                    //req.flash({'error':err.message});
+                    done(err);
+                } else {
+                    done(err, result);
+                }
+            });
+        }
     },
     create: function (newItem, done) {
         conn.query('insert into items set ?', newItem, function (err, result) {

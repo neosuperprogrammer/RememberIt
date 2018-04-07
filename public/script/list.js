@@ -31,16 +31,20 @@ var requestItems = function () {
     $(window).scrollTop($(document).height());
     console.log("===============request");
     inRequest = 1;
+    itemState = getState();
     $.getJSON("/api/items/page/" + pageToRequest + "?state=" + itemState, {}, function (data) {
         inRequest = 0;
+        $('.loading-div').remove();
         console.log(data);
-        pageToRequest++;
         console.log("length" + data.items.length);
         if (data.items.length == 0) {
             requestEnd = 1;
+            if (pageToRequest == 1) {
+                placeHolder.append("<div class='loading-div col-6'><i class='far fa-thumbs-up''></i></div>");
+            }
         }
+        pageToRequest++;
 
-        $('.loading-div').remove();
         data.items.forEach(function (item) {
             var html = template(item);
             // placeHolder.append(html);
@@ -221,13 +225,26 @@ var getUpdateTitle = function () {
         document.write("Move to memorizes");
     }
 };
+
+function setState(state) {
+    localStorage['state'] = state;
+}
+
+
+function getState() {
+    var state = localStorage['state'] || 1;
+    return state;
+}
+
 var updateContent = function (state) {
     // if (itemState == 1) {
     //     itemState = 2;
     // } else {
     //     itemState = 1;
     // }
+
     if (state != undefined) {
+        setState(state)
         itemState = state;
     }
     pageToRequest = 1;
