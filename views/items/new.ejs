@@ -12,6 +12,24 @@
     <script type="application/javascript" src="https://code.jquery.com/jquery-2.2.3.js"></script>
     <script type="application/javascript" src="/public/script/list.js"></script>
 
+    <style>
+        .card-link{
+            position: absolute;
+            text-align: center;
+            left: 50%;
+            transform: translate(40%, 0);
+            width: 150px;
+            right: 10px;
+            background-color: #8296a7;
+            text-decoration: none;
+            color: #e3e3e3;
+            border-radius: 5px;
+            padding: 5px;
+        }
+        .card-link:hover {
+            color: white;
+        }
+    </style>
 </head>
 <body>
 <div class="wrapper">
@@ -30,6 +48,7 @@
                 </label>
             </div>
             <div class="form-input">
+                <a class="card-link" href="http://endic.naver.com/search.nhn?searchOption=all&query=" style="float:left;">Search in Naver</a>
                 <button class="submit-button">Add</button>
             </div>
 
