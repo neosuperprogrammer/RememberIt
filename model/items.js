@@ -40,7 +40,7 @@ var contents = {
         });
     },
     findByPageAndState: function (userEmail, start, limit, state, done) {
-        conn.query('select * from items where user_email = ? and remember_state = ? ORDER BY created DESC LIMIT ?, ?', [userEmail, state, start, limit], function (err, result) {
+        conn.query('select * from items where user_email = ? and remember_state = ? ORDER BY remembered ASC LIMIT ?, ?', [userEmail, state, start, limit], function (err, result) {
             if (err) {
                 console.log(err);
                 //req.flash({'error':err.message});
@@ -103,8 +103,10 @@ var contents = {
         });
     },
     findByIdAndUpdateState: function (itemId, state, done) {
-        conn.query('UPDATE items SET remember_state = ? WHERE id = ?',
-            [state, itemId], function (err, results) {
+        var now = new Date();
+        // console.log('now : ' + now + ', state : ' + state);
+        conn.query('UPDATE items SET remember_state = ?, remembered = ? WHERE id = ?',
+            [state, now, itemId], function (err, results) {
                 if (err) {
                     console.log(err);
                     done(err);

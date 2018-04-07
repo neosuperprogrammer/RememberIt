@@ -3,33 +3,6 @@ var itemState = 1;
 var requestEnd = 0;
 var inRequest = 0;
 
-
-Handlebars.registerHelper("getDate", function (created) {
-    var d = new Date(created);
-    var datestring = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + " " + d.getHours() + ":" + d.getMinutes();
-    return datestring;
-    // var html = "<ul>";
-    // html += "<li>" + datestring + "</li>";
-    // html += "</ul>";
-    // return html;
-});
-Handlebars.registerHelper("getStateTitle", function (id) {
-    if (itemState == 1) {
-        return "memorized";
-    } else {
-        return "forgot";
-    }
-});
-
-Handlebars.registerHelper("getDescContent", function (content) {
-    var newContent = content.replace("\r\n", "</br>");
-    newContent = newContent.replace("\n\r", "</br>");
-    newContent = newContent.replace("\r", "</br>");
-    newContent = newContent.replace("\n", "</br>");
-    return newContent;
-});
-
-
 var getStateTitle = function (id) {
 
     console.log("update item : " + id);
@@ -70,135 +43,153 @@ var requestItems = function () {
         $('.loading-div').remove();
         data.items.forEach(function (item) {
             var html = template(item);
-            placeHolder.append(html);
-        });
-        $('.card-desc-block').unbind('click');
-        $('.card-desc-block').click(function (evt) {
-            console.log(this);
-            $(this).toggleClass('hidden');
-            evt.preventDefault();
-            return false;
-        });
+            // placeHolder.append(html);
+            // console.dir(">>>>>>>>>>>" + html);
+            var elements = $(html);
+            placeHolder.append(elements);
 
-        $('.card-title-edit').click(function (evt) {
-            var urlToRequest = "/items/" + this.id;
-            console.log("location : " + urlToRequest);
-            window.location.href = urlToRequest;
-            // 					window.location.replace(urlToRequest);
-            evt.preventDefault();
-            return false;
-        });
 
-        $(".card-update-button").click
-        (
-            function (evt) {
-                //YOUR CODE HERE
-                // console.log(evt.target);
-                var button = $(this);
-                // $(this).text("hi");
-                var urlToRequest = "/api/items/memorized/" + evt.target.id;
-                if (itemState == 2) {
-                    var urlToRequest = "/api/items/forgot/" + evt.target.id;
+            $('.card-desc-block', elements).unbind('click');
+            $('.card-desc-block', elements).click(function (evt) {
+                console.log(this);
+                $(this).toggleClass('hidden');
+                evt.preventDefault();
+                return false;
+            });
+
+            $('.card-title-edit', elements).click(function (evt) {
+                var urlToRequest = "/items/" + this.id;
+                console.log("location : " + urlToRequest);
+                window.location.href = urlToRequest;
+                // 					window.location.replace(urlToRequest);
+                evt.preventDefault();
+                return false;
+            });
+
+            $(".card-update-button", elements).click
+            (
+                function (evt) {
+                    //YOUR CODE HERE
+                    // console.log(evt.target);
+                    var button = $(this);
+                    // $(this).text("hi");
+                    var urlToRequest = "/api/items/memorized/" + evt.target.id;
+                    if (itemState == 2) {
+                        var urlToRequest = "/api/items/forgot/" + evt.target.id;
+                    }
+                    $.ajax({
+                        url: urlToRequest,
+                        success: function (data) {
+                            console.log(data.result);
+                            if (data.result == "success") {
+                                // console.log(button.parent());
+                                button.parent().parent().parent().addClass("memorized");
+                                // button.text('hi');
+                            }
+                        }
+                    });
+
+                    evt.preventDefault();
+                    return false;
                 }
-                $.ajax({
-                    url: urlToRequest,
-                    success: function (data) {
-                        console.log(data.result);
-                        if (data.result == "success") {
-                            // console.log(button.parent());
-                            button.parent().parent().parent().addClass("memorized");
-                            // button.text('hi');
-                        }
-                    }
-                });
+            );
+            $('.card-close-btn', elements).click(function (evt) {
+                console.log(this);
+                if (confirm('Delete?')) {
+                    var urlToRequest = "/items/" + evt.target.id + "?_method=DELETE";
+                    console.log("url " + urlToRequest);
+                    $.ajax({
+                        url: urlToRequest,
+                        success: function (data) {
+                            // window.location.replace("/items");
+                            // requestItems();
+                            updateContent();
+                        },
+                        data: {},
+                        type: 'POST'
+                    });
 
+                } else {
+                }
                 evt.preventDefault();
                 return false;
-            }
-        );
-        $('.card-close-btn').click(function (evt) {
-            console.log(this);
-            if (confirm('Delete?')) {
-                var urlToRequest = "/items/" + evt.target.id + "?_method=DELETE";
-                console.log("url " + urlToRequest);
-                $.ajax({
-                    url: urlToRequest,
-                    success: function (data) {
-                        // window.location.replace("/items");
-                        // requestItems();
-                        updateContent();
-                    },
-                    data: {},
-                    type: 'POST'
-                });
-
-            } else {
-            }
-            evt.preventDefault();
-            return false;
-        });
-        $('.card-forget-check-box').change(function (evt) {
-            // this will contain a reference to the checkbox
-            if (this.checked) {
-                console.log('checked');
-                var button = $(this);
-                // var urlToRequest = "/api/items/memorized/" + evt.target.id;
-                // if (itemState == 2) {
+            });
+            $('.card-forget-check-box', elements).change(function (evt) {
+                // this will contain a reference to the checkbox
+                if (this.checked) {
+                    console.log('checked');
+                    var button = $(this);
+                    // var urlToRequest = "/api/items/memorized/" + evt.target.id;
+                    // if (itemState == 2) {
                     var urlToRequest = "/api/items/forgot/" + evt.target.id;
-                // }
-                $.ajax({
-                    url: urlToRequest,
-                    success: function (data) {
-                        console.log(data.result);
-                        if (data.result == "success") {
-                            // console.log(button.parent());
-                            button.parent().parent().parent().parent().parent().addClass("memorized");
-                            // button.text('hi');
+                    // }
+                    $.ajax({
+                        url: urlToRequest,
+                        success: function (data) {
+                            console.log(data.result);
+                            if (data.result == "success") {
+                                // console.log(button.parent());
+                                button.parent().parent().parent().parent().parent().addClass("memorized");
+                                // button.text('hi');
+                            }
                         }
-                    }
-                });
+                    });
 
-                evt.preventDefault();
-                return false;
+                    evt.preventDefault();
+                    return false;
 
+                } else {
+                    console.log('unchecked');
+                }
+            });
+            $('.card-remember-check-box', elements).change(function (evt) {
+                // this will contain a reference to the checkbox
+                if (this.checked) {
+                    console.log('checked');
+                    var button = $(this);
+                    var urlToRequest = "/api/items/memorized/" + evt.target.id;
+                    // if (itemState == 2) {
+                    //     var urlToRequest = "/api/items/forgot/" + evt.target.id;
+                    // }
+                    $.ajax({
+                        url: urlToRequest,
+                        success: function (data) {
+                            console.log(data.result);
+                            if (data.result == "success") {
+                                // console.log(button.parent());
+                                button.parent().parent().parent().parent().parent().addClass("memorized");
+                                // button.text('hi');
+                            }
+                        }
+                    });
+
+                    evt.preventDefault();
+                    return false;
+
+                } else {
+                    console.log('unchecked');
+                }
+            });
+            $('.card-forget-check-text', elements).css('color', '#474747');
+            $('.card-remember-check-text', elements).css('color', '#474747');
+            if (itemState == 1) {
+                $('.card-forget-check-text', elements).css('color', '#adadad');
+                $('.card-forget-check-box', elements).prop('disabled', true);
+            }
+            else if (itemState == 5) {
+                $('.card-remember-check-text', elements).css('color', '#adadad');
+                $('.card-remember-check-box', elements).prop('disabled', true);
+            }
+
+            var d = new Date(item.remembered);
+            // console.log('item.remembered : ' + item.remembered);
+            var remained = remainedHours(d);
+            if (remained <= 0) {
+                $('.card-state-div', elements).show();
             } else {
-                console.log('unchecked');
+                $('.card-state-div', elements).hide();
             }
         });
-        $('.card-remember-check-box').change(function (evt) {
-            // this will contain a reference to the checkbox
-            if (this.checked) {
-                console.log('checked');
-                var button = $(this);
-                var urlToRequest = "/api/items/memorized/" + evt.target.id;
-                // if (itemState == 2) {
-                //     var urlToRequest = "/api/items/forgot/" + evt.target.id;
-                // }
-                $.ajax({
-                    url: urlToRequest,
-                    success: function (data) {
-                        console.log(data.result);
-                        if (data.result == "success") {
-                            // console.log(button.parent());
-                            button.parent().parent().parent().parent().parent().addClass("memorized");
-                            // button.text('hi');
-                        }
-                    }
-                });
-
-                evt.preventDefault();
-                return false;
-
-            } else {
-                console.log('unchecked');
-            }
-        });
-        if (itemState == 1) {
-            $('.card-forget-check-box').prop('disabled', true);
-        }
-        if (itemState == 4) {
-            $('.card-remember-check-box').prop('disabled', true);
-        }
 
 
     });
@@ -208,16 +199,19 @@ var requestItems = function () {
 var setTitle = function () {
     if (itemState == 1) {
         // document.write("Don't Know");
-        $('#main-title').text("Don't Know");
+        $('#main-title').text("NEW");
     } else if (itemState == 2) {
         // document.write("Maybe Know");
-        $('#main-title').text("Maybe Know");
+        $('#main-title').text("1'st Turn");
     } else if (itemState == 3) {
         // document.write("Remembered");
-        $('#main-title').text("Remembered");
+        $('#main-title').text("2'st Turn");
     } else if (itemState == 4) {
         // document.write("Can't forget");
-        $('#main-title').text("Can't forget");
+        $('#main-title').text("3'st Turn");
+    } else if (itemState == 5) {
+        // document.write("Can't forget");
+        $('#main-title').text("Long-Term Memory");
     }
 };
 var getUpdateTitle = function () {

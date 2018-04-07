@@ -113,6 +113,9 @@ router.get("/items/memorized/:id", middleware.checkUserItem, function (req, res)
                 else if (rememberState == 3) {
                     rememberState = 4;
                 }
+                else if (rememberState == 4) {
+                    rememberState = 5;
+                }
                 Items.findByIdAndUpdateState(req.params.id, rememberState, function(err){
                     if(err){
                         console.log(err);
@@ -207,7 +210,10 @@ router.get("/items/forgot/:id", middleware.checkUserItem, function (req, res) {
                 // };
                 // console.log('found item ' + foundItem);
                 var rememberState = foundItem.remember_state;
-                if (rememberState == 4) {
+                if (rememberState == 5) {
+                    rememberState = 4;
+                }
+                else if (rememberState == 4) {
                     rememberState = 3;
                 }
                 else if (rememberState == 3) {
