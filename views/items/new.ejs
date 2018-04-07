@@ -40,10 +40,11 @@
 </div>
 
 <script>
-    $('.submit-button').click( function() {
+    $('.submit-button').click( function(evt) {
+        evt.preventDefault();
         setState(1);
         $.ajax({
-            url: '/items',
+            url: '/api/items',
             type: 'post',
             dataType: 'json',
             data: $('form#myForm').serialize(),

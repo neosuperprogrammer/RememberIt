@@ -83,6 +83,33 @@ router.get("/items/page/:page", middleware.isLoggedIn, function (req, res) {
 //   });
 });
 
+router.post("/items", middleware.isLoggedIn, function(req, res){
+    var email = req.session.user.email;
+    var item = req.body.item;
+    var itemDesc = req.body.item_desc;
+
+    console.log("item : " + item + ", desc : " + itemDesc);
+    created = new Date();
+    var newItem = {
+        user_email: email,
+        item: item,
+        item_desc: itemDesc,
+        remember_state: 1,
+        created: created
+    };
+    Items.create(newItem, function(err){
+        if (err) {
+            res.send("create item failed : " + err);
+        } else {
+            console.log('api successs');
+            var result = {
+                result: 'success'
+            };
+            res.send(result);
+        }
+    });
+});
+
 router.get("/items/memorized/:id", middleware.checkUserItem, function (req, res) {
     var id = req.params.id;
 

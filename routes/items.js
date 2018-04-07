@@ -86,11 +86,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     if (err) {
       res.send("create item failed : " + err);
     } else {
-        var result = {
-            result: 'success'
-        };
-        res.send(result);
-        // res.redirect("/items");
+        res.redirect("/items");
     }
   });
 });
