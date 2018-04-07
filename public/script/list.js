@@ -28,7 +28,9 @@ var requestItems = function () {
     // Retrieve the placeHolder where the posts will be displayed
     var placeHolder = $('#content');
     placeHolder.append("<div class='loading-div col-12'><div class='loading-text'><i class='fas fa-spinner fa-spin'></i></div></div>");
-    $(window).scrollTop($(document).height());
+    if (pageToRequest > 1) {
+        $(window).scrollTop($(document).height());
+    }
     console.log("===============request");
     inRequest = 1;
     itemState = getState();
