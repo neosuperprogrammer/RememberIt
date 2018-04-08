@@ -265,16 +265,16 @@ var setTitle = function () {
     itemState = getState();
     if (itemState == 1) {
         // document.write("Don't Know");
-        $('#main-title').text("NEW");
+        $('#main-title').text("New");
     } else if (itemState == 2) {
         // document.write("Maybe Know");
         $('#main-title').text("1'st Turn");
     } else if (itemState == 3) {
         // document.write("Remembered");
-        $('#main-title').text("2'st Turn");
+        $('#main-title').text("2'nd Turn");
     } else if (itemState == 4) {
         // document.write("Can't forget");
-        $('#main-title').text("3'st Turn");
+        $('#main-title').text("3'rd Turn");
     } else if (itemState == 5) {
         // document.write("Can't forget");
         $('#main-title').text("Long-Term Memory");
