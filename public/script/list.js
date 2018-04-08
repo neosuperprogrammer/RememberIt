@@ -9,6 +9,29 @@ var getStateTitle = function (id) {
     // stopProp
 }
 
+function createCORSRequest(method, url) {
+    var xhr = new XMLHttpRequest();
+    if ("withCredentials" in xhr) {
+
+        // Check if the XMLHttpRequest object has a "withCredentials" property.
+        // "withCredentials" only exists on XMLHTTPRequest2 objects.
+        xhr.open(method, url, true);
+
+    } else if (typeof XDomainRequest != "undefined") {
+
+        // Otherwise, check if XDomainRequest.
+        // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+        xhr = new XDomainRequest();
+        xhr.open(method, url);
+
+    } else {
+
+        // Otherwise, CORS is not supported by the browser.
+        xhr = null;
+
+    }
+    return xhr;
+}
 
 var requestItems = function () {
     if (requestEnd == 1) {
@@ -57,10 +80,46 @@ var requestItems = function () {
 
             $('.card-desc-block', elements).unbind('click');
             $('.card-desc-block', elements).click(function (evt) {
-                console.log(this);
-                $(this).toggleClass('hidden');
                 evt.preventDefault();
-                return false;
+                // console.log(this);
+                $(this).toggleClass('hidden');
+
+                // var urlStr = 'http://endic.naver.com/nvoice?service=endic&speech_fmt=mp3&from=endic&text=He%20was%20born%20in%20the%20Year%20of%20the%20Rabbit%2e&vcode=381000&speaker=clara';
+
+
+                // var xhr = createCORSRequest('GET', urlStr);
+                // if (!xhr) {
+                //     throw new Error('CORS not supported');
+                // }
+                //
+                // xhr.onload = function() {
+                //     var responseText = xhr.responseText;
+                //     console.log(responseText);
+                //     // process the response.
+                // };
+                //
+                // xhr.onerror = function() {
+                //     console.log('There was an error!');
+                // };
+                // xhr.withCredentials = true;
+                // xhr.send();
+
+                // urlStr = 'http://ac.endic.naver.com/ac?q=zl&q_enc=utf-8&st=11001&r_format=json&r_enc=utf-8&r_lt=11001&r_unicode=0&r_escape=1';
+                // $.ajax({
+                //     url: urlStr,
+                //     type: 'get',
+                //     dataType: 'jsonp',
+                //     // responseType: 'blob',
+                //     success: function (data) {
+                //         console.log('success ' + data);
+                //     },
+                //     error: function (error) {
+                //         console.log('error >>> ' + error);
+                //     }
+                //
+                // });
+
+
             });
 
             $('.card-title-edit', elements).click(function (evt) {
