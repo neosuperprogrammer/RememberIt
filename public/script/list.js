@@ -203,6 +203,7 @@ var requestItems = function () {
 
 
 var setTitle = function () {
+    itemState = getState();
     if (itemState == 1) {
         // document.write("Don't Know");
         $('#main-title').text("NEW");
