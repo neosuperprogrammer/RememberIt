@@ -83,6 +83,91 @@ router.get("/items/page/:page", middleware.isLoggedIn, function (req, res) {
 //   });
 });
 
+router.get("/setting/items/delete/:state", middleware.isLoggedIn, function (req, res) {
+    var state = req.params.state;
+    // var state = req.query.state;
+    //
+    // console.log("page : " + page);
+    console.log("state : " + state);
+    var email = req.session.user.email;
+    Items.findByStateAndRemove(email, state, function(err){
+        if(err){
+            console.log(err);
+            var result = {
+                result: 'fail',
+                reason: err
+            };
+            res.send(result);
+
+        } else {
+            var result = {
+                result: 'success',
+            };
+            // console.log('result ' +  result);
+            res.send(result);
+        }
+    });
+});
+
+
+router.get("/setting/items/", middleware.isLoggedIn, function (req, res) {
+    // var page = req.params.page;
+    // var state = req.query.state;
+    //
+    // console.log("page : " + page);
+    // console.log("state : " + state);
+    var email = req.session.user.email;
+    Items.findItemsWithState(email, function (err, items) {
+        if (err) {
+            var result = {
+                result: 'fail',
+                reason: err
+            };
+//       res.send('item find error : ' + err);
+            res.send(result);
+        } else {
+            var state_1_count = 0;
+            var state_2_count = 0;
+            var state_3_count = 0;
+            var state_4_count = 0;
+            var state_5_count = 0;
+            var state_total = 0;
+
+            items.forEach(function(value){
+                // console.log(value);
+                state_total++;
+                if (value.remember_state == 1) {
+                    state_1_count++;
+                }
+                else if (value.remember_state == 2) {
+                    state_2_count++;
+                }
+                else if (value.remember_state == 3) {
+                    state_3_count++;
+                }
+                else if (value.remember_state == 4) {
+                    state_4_count++;
+                }
+                else if (value.remember_state == 5) {
+                    state_5_count++;
+                }
+            });
+
+            var result = {
+                result: 'success',
+                state_1_count : state_1_count,
+                state_2_count : state_2_count,
+                state_3_count : state_3_count,
+                state_4_count : state_4_count,
+                state_5_count : state_5_count,
+                state_total : state_total,
+            };
+            console.log('result ' +  result);
+            res.send(result);
+        }
+    });
+});
+
 router.post("/items", middleware.isLoggedIn, function(req, res){
     var email = req.session.user.email;
     var item = req.body.item;

@@ -91,8 +91,9 @@ router.get('/LogOut',function(req,res){
 
 
 router.get("/Setting", function(req, res){
-    console.log('log in');
-    res.render("setting");
+    console.log('Setting');
+    res.sendFile('public/html/setting.html', {root: '.'});
+
 });
 
 

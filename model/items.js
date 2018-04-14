@@ -63,6 +63,17 @@ var contents = {
             });
         }
     },
+    findItemsWithState: function (userEmail, done) {
+        conn.query('select remember_state from items where user_email = ?', [userEmail], function (err, result) {
+            if (err) {
+                console.log(err);
+                //req.flash({'error':err.message});
+                done(err);
+            } else {
+                done(err, result);
+            }
+        });
+    },
     create: function (newItem, done) {
         conn.query('insert into items set ?', newItem, function (err, result) {
             if (err) {
@@ -115,6 +126,28 @@ var contents = {
             }
         });
     },
+    findByStateAndRemove: function (userEmail, state, done) {
+        if (state == 0) {
+            conn.query('DELETE from items where user_email = ?', [userEmail, state], function (err, result) {
+                if (err) {
+                    console.log(err);
+                    done(err);
+                } else {
+                    done(null);
+                }
+            });
+        } else {
+            conn.query('DELETE from items where user_email = ? and remember_state = ?', [userEmail, state], function (err, result) {
+                if (err) {
+                    console.log(err);
+                    done(err);
+                } else {
+                    done(null);
+                }
+            });
+        }
+    },
+
     findByIdAndUpdateState: function (itemId, state, done) {
         var now = new Date();
         // console.log('now : ' + now + ', state : ' + state);
