@@ -206,13 +206,17 @@
         });
     </script>
     <script>
+        function gotoHome() {
+            setState(1);
+            window.location.href = "/";
+        }
     </script>
 </head>
 <body>
 <div id="wrapper">
     <div class="nav">
         <ul class="nav-ul">
-            <li><a href="/">&Xi; HOME</a></li>
+            <li><a href="#" onclick="gotoHome();">&Xi; HOME</a></li>
             <li>
                 <div class="dropdown">
                     <button class="dropbtn">Stage

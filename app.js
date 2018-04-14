@@ -21,7 +21,8 @@ app.use(session({
     secret: '124124jlsjdlsjdl!@',
     resave: false,
     saveUninitialized: false,
-    store: new MySQLStore(options)
+    store: new MySQLStore(options),
+    maxAge: Date.now() + (365 * 86400 * 1000)
   }
 ));
 
