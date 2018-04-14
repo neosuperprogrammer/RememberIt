@@ -31,6 +31,7 @@
         }
     </style>
     <script>
+
         function gotoNaverSearch() {
             var searchItem = $('input[name="item"]').val();
             console.log("item : "+  searchItem);
@@ -56,7 +57,7 @@
                 </label>
             </div>
             <div class="form-input">
-                <a class="card-link" href="#" onclick="gotoNaverSearch();" style="float:left;">Naver Search</a>
+                <a class="card-link" href="#" style="float:left;">Naver Search</a>
                 <button class="submit-button">Add</button>
             </div>
 
@@ -81,6 +82,15 @@
             }
         });
     });
+    $(document).on('click', 'a[href="#"]', function(e){
+        e.preventDefault();
+        var searchItem = $('input[name="item"]').val();
+        console.log("item : "+  searchItem);
+        var url = "http://endic.naver.com/search.nhn?searchOption=all&query=" + searchItem;
+        window.location.href = url;
+
+    });
+
 </script>
 
 
