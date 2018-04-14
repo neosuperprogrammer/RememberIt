@@ -84,6 +84,16 @@
                 });
             }
         }
+        function loadElementaryEnglish(level) {
+            if (confirm('Add?')) {
+                showLoading();
+                $.getJSON("/api/setting/elementary/" + level, {}, function (data) {
+                    hideLoading();
+                    console.log('level : ' + data.level);
+                    location.reload();
+                });
+            }
+        }
         function showLoading() {
             $('#loading').show();
         }
@@ -356,11 +366,59 @@
     </div>
 </div>
 
+<div id="elementary_english">
+    <div class="item_state item_state_main">
+        초등영어단어
+    </div>
+    <div id="elementary_english_state_1" class="item_state item_state_sub" style="cursor:pointer">
+        1단계 추가
+    </div>
+    <div id="elementary_english_state_2" class="item_state item_state_sub" style="cursor:pointer">
+        2단계 추가
+    </div>
+    <div id="elementary_english_state_3" class="item_state item_state_sub" style="cursor:pointer">
+        3단계 추가
+    </div>
+    <div id="elementary_english_state_4" class="item_state item_state_sub" style="cursor:pointer">
+        4단계 추가
+    </div>
+    <div id="elementary_english_state_5" class="item_state item_state_sub" style="cursor:pointer">
+        5단계 추가
+    </div>
+</div>
+
+
 <div id="loading">
     <div id="loader_div">
         <div class="loader"></div>
     </div>
 </div>
+
+<script>
+    $('#elementary_english_state_1').click(function (ev) {
+        ev.preventDefault();
+        // console.log('1');
+        loadElementaryEnglish(1);
+    });
+    $('#elementary_english_state_2').click(function (ev) {
+        ev.preventDefault();
+        loadElementaryEnglish(2);
+    });
+    $('#elementary_english_state_3').click(function (ev) {
+        ev.preventDefault();
+        loadElementaryEnglish(3);
+    });
+    $('#elementary_english_state_4').click(function (ev) {
+        ev.preventDefault();
+        loadElementaryEnglish(4);
+    });
+    $('#elementary_english_state_5').click(function (ev) {
+        ev.preventDefault();
+        loadElementaryEnglish(5);
+    });
+
+</script>
+
 
 </body>
 </html>

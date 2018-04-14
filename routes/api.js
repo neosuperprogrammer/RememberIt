@@ -2,6 +2,7 @@ var express     = require("express");
 router          = express.Router();
 var middleware  = require("../middleware");
 var Items       = require("../model/items");
+var util        = require("../utility");
 
 router.get("/", middleware.isLoggedIn, function(req, res){
   res.redirect("/api/items/page/1");
@@ -109,6 +110,105 @@ router.get("/setting/items/delete/:state", middleware.isLoggedIn, function (req,
     });
 });
 
+function createItem(newItem, index) {
+    return new Promise(function (resolve, reject) {
+        Items.create(newItem, function(err){
+            if (err) {
+                console.log(err);
+                reject(err);
+            } else {
+                console.log(">>>>>> create : " + index);
+                resolve();
+            }
+        });
+    });
+}
+
+
+router.get("/setting/elementary/:level", middleware.isLoggedIn, function (req, res) {
+    var level = req.params.level;
+    // var state = req.query.state;
+    //
+    // console.log("page : " + page);
+    console.log("level : " + level);
+    var email = req.session.user.email;
+
+    var sequence = Promise.resolve();
+    util.loadElementaryListWithLevel(level, function (max_number, result) {
+        // console.log('result : ' + result);
+        var index = 0;
+        var words = [];
+        for (key in result) {
+            var word = result[key];
+            words.push(word);
+        }
+        // console.log(">>>> word : " + words);
+        // console.log(">>>> word : " + words.length);
+        // const keys = Object.keys(result);
+        // for (key in result) {
+            // console.log(word);
+        // for (i=0s; i< max_number;i++) {
+
+        if (level == 2) {
+            index = 100;
+        }
+        else if (level == 3) {
+            index = 200;
+        }
+        else if (level == 4) {
+            index = 300;
+        }
+        else if (level == 5) {
+            index = 400;
+        }
+        // for (i=0; i< words.length; i++) {
+        for (i=0; i< 100; i++) {
+            sequence = sequence
+                .then(function () {
+                    // var word = result[index];
+                    var word = words[index];
+                    var item = word['item'];
+                    var itemDesc = word['item_desc'];
+                    if (itemDesc == undefined) {
+                        itemDesc = "";
+                    }
+                    console.log("item : " + item + ", desc : " + itemDesc);
+                    index++;
+
+                    created = new Date();
+                    var newItem = {
+                        user_email: email,
+                        item: item,
+                        item_desc: itemDesc,
+                        remember_state: 1,
+                        created: created,
+                        remembered: created
+                    };
+                    return createItem(newItem, index);
+                });
+        }
+
+        sequence
+            .then(function() {
+                var result = {
+                    result: 'success',
+                    level:level
+                };
+                // console.log('result ' +  result);
+                res.send(result);
+                console.log(">>>>>>> end");
+            })
+            .catch(function (err) {
+                var result = {
+                    result: 'fail',
+                    reason: err
+                };
+                // console.log('result ' +  result);
+                res.send(result);
+            });
+    });
+
+});
 
 router.get("/setting/items/", middleware.isLoggedIn, function (req, res) {
     // var page = req.params.page;
