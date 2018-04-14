@@ -89,4 +89,11 @@ router.get('/LogOut',function(req,res){
   res.redirect('/');
 });
 
+
+router.get("/Setting", function(req, res){
+    console.log('log in');
+    res.render("setting");
+});
+
+
 module.exports = router;
