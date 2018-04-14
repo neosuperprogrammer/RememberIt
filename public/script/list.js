@@ -265,7 +265,7 @@ var setTitle = function () {
     itemState = getState();
     if (itemState == 1) {
         // document.write("Don't Know");
-        $('#main-title').text("New");
+        $('#main-title').text("Newly Added");
     } else if (itemState == 2) {
         // document.write("Maybe Know");
         $('#main-title').text("1'st Turn");
