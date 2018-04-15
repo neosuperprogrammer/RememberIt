@@ -313,7 +313,20 @@
         }
         return true;
     };
+    var timeoutId  = null;
+    function requestDelayedHint() {
+        if (timeoutId != null) {
+            clearTimeout(timeoutId);
+            timeoutId = null;
+        }
+        timeoutId = setTimeout(function() {
+            requestHint();
+        }, 500);
+    }
+
     function requestHint() {
+        timeoutId = null;
+        console.log('>>>>> request');
         var searchItem = $('input[name="item"]').val();
         console.log('key up : ' + searchItem);
         $.ajax({
@@ -372,11 +385,11 @@
 
     $('#form_input_item').on('focus', function() {
         console.log('>>>> focus');
-        requestHint();
+        requestDelayedHint();
 
     });
     $('#form_input_item').on('keyup', function() {
-        requestHint();
+        requestDelayedHint();
 
     });
 
