@@ -237,12 +237,12 @@
             var offset = $('#form_input_item').offset().top - 10;
             $('#hint_div').css('top', offset);
             $('#hint_div').hide();
+            $(window).on('click', function (evt) {
+
+                $('#hint_div').hide();
+            })
 
         });
-        $(document).on('click', function (evt) {
-
-            $('#hint_div').hide();
-        })
     </script>
 
 </head>
@@ -383,11 +383,11 @@
         });
     }
 
-    // $('#form_input_item').on('focus', function() {
-    //     console.log('>>>> focus');
-    //     requestDelayedHint();
-    //
-    // });
+    $('#form_input_item').on('focus', function() {
+        console.log('>>>> focus');
+        requestDelayedHint();
+
+    });
     $('#form_input_item').on('keyup', function() {
         requestDelayedHint();
 
