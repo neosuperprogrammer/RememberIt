@@ -110,6 +110,77 @@ router.get("/setting/items/delete/:state", middleware.isLoggedIn, function (req,
     });
 });
 
+router.get("/search/items/", middleware.isLoggedIn, function (req, res) {
+    // var state = req.params.state;
+    var word = req.query.word;
+    //
+    console.log("word : " + word);
+    var email = req.session.user.email;
+
+    var encodedWord = encodeURIComponent(word);
+
+    urlStr = 'http://ac.endic.naver.com/ac?q=' + encodedWord + '&q_enc=utf-8&st=11001&r_format=json&r_enc=utf-8&r_lt=11001&r_unicode=0&r_escape=1';
+    util.requestUrlContents(urlStr, function (data, err) {
+        if (err) {
+            console.log('error >>> ' + error);
+            var result = {
+                result: 'fail',
+                reason: err
+            };
+            res.send(result);
+        } else {
+            // console.log('success ' + data.toString());
+            // console.log('==========================');
+            var json = JSON.parse(data.toString());
+            // console.log('success ' + json.toString());
+            // console.log('query : ' + json.query);
+            // console.log('type : ' + typeof json.items);
+            // console.log('items : ' + json.items[0][0][0]);
+            var resultWord = [];
+            json.items[0].forEach(function (value) {
+                var item = value[0][0];
+                var item_desc = value[1][0];
+                // console.log(value[0][0]);
+                // console.log(value[1][0]);
+                // console.log('length : ' + value.length);
+                // console.log('==========================');
+                resultWord.push({item:item, item_desc:item_desc});
+            });
+            // console.log(resultWord);
+            var result = {
+                result: 'success',
+                data: resultWord
+            };
+            // console.log('result ' +  result);
+            res.send(result);
+        }
+    });
+    // $.ajax({
+    //     url: urlStr,
+    //     type: 'get',
+    //     dataType: 'json',
+    //     // responseType: 'blob',
+    //     success: function (data) {
+    //         console.log('success ' + data);
+    //         var result = {
+    //             result: 'success',
+    //             data: data
+    //         };
+    //         // console.log('result ' +  result);
+    //         res.send(result);
+    //     },
+    //     error: function (error) {
+    //         console.log('error >>> ' + error);
+    //         var result = {
+    //             result: 'fail',
+    //             reason: err
+    //         };
+    //         res.send(result);
+    //     }
+    //
+    // });
+});
+
 function createItem(newItem, index) {
     return new Promise(function (resolve, reject) {
         Items.create(newItem, function(err){

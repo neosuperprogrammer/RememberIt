@@ -1,28 +1,29 @@
-// var _ = require('underscore');
-// var request = require('request');
+var _ = require('underscore');
+var request = require('request');
 // var cheerio = require('cheerio');
 // var iconv = require('iconv-lite');
 // var Iconv = require('iconv').Iconv;
-// var Promise = require('bluebird');
+var Promise = require('bluebird');
 var XLSX = require('xlsx');
 var path = require('path');
 
-// function getUrlContents(requestOption) {
-//     return new Promise(function (resolve, reject) {
-//         request(requestOption, function (error, response, body) {
-//             if (error) {
-//                 reject(error);
-//                 return;
-//             }
-//             body = new Buffer(body, 'binary');
-//             iconv2 = new Iconv('euc-kr', 'UTF8');
-//             var utf8String = iconv2.convert(body).toString();
-//             //console.log(utf8String);
-//             var loaded = cheerio.load(utf8String);
-//             resolve(loaded);
-//         });
-//     });
-// };
+function getUrlContents(requestOption) {
+    return new Promise(function (resolve, reject) {
+        request(requestOption, function (error, response, body) {
+            if (error) {
+                reject(error);
+                return;
+            }
+            // console.log(body);
+            // body = new Buffer(body, 'binary');
+            // iconv2 = new Iconv('euc-kr', 'UTF8');
+            // var utf8String = iconv2.convert(body).toString();
+            //console.log(utf8String);
+            // var loaded = cheerio.load(utf8String);
+            resolve(body);
+        });
+    });
+};
 
 function to_json(workbook) {
     var result = {};
@@ -148,55 +149,23 @@ var contents = {
         filePath = path.join(__dirname, 'test.xls');
         getElementaryList(filePath, callback);
     },
-    // requestUrlContents: function (url, callback) {
-    //     var requestOptions = {
-    //         encoding: null,
-    //         method: "GET",
-    //         uri: url
-    //     };
-    //     getUrlContents(requestOptions)
-    //         .then(function (loaded) {
-    //             callback(loaded, null);
-    //         })
-    //         .
-    //         catch(function (err) {
-    //             console.log(err);
-    //             callback(null, err);
-    //         });
-    // },
-    // createSmsFromFile: function (job, user, filepath) {
-    //     //console.log('filepath : ' + filepath);
-    //     var workbook = XLSX.readFile(filepath);
-    //     //console.log('workbook : ' + workbook.SheetNames);
-    //     var first_sheet_name = workbook.SheetNames[0];
-    //     var translate_data = to_json(workbook)[first_sheet_name];
-    //     //console.log(translate_data);
-    //     var sequence = Promise.resolve();
-    //     translate_data.forEach(function (translate) {
-    //         var name = translate['Name'];
-    //         var phonenumber = translate['Phone'];
-    //         sequence = sequence
-    //             .then(function () {
-    //                 return createSms(job, user, name, phonenumber)
-    //             });
-    //     });
-    //
-    //     return sequence
-    //         .then(function () {
-    //             return new Promise(function (resolve, reject) {
-    //                 job.save(function (err, job, numAffected) {
-    //                     if (err) {
-    //                         reject(err);
-    //                     }
-    //                     else {
-    //                         fs.unlinkSync(filepath);
-    //                         //console.log('delete file : ' + filepath);
-    //                         resolve(job);
-    //                     }
-    //                 });
-    //             });
-    //         });
-    // }
+    requestUrlContents: function (url, callback) {
+        var requestOptions = {
+            encoding: null,
+            method: "GET",
+            // json: true,
+            uri: url
+        };
+        getUrlContents(requestOptions)
+            .then(function (loaded) {
+                callback(loaded, null);
+            })
+            .
+            catch(function (err) {
+                console.log(err);
+                callback(null, err);
+            });
+    }
 };
 
 var exports = module.exports = contents;
