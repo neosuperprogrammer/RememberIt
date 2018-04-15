@@ -24,7 +24,7 @@
                 {{item}}
             </div>
             <div class="item_desc">
-                {{item_desc}}
+                {{{item_desc}}}
             </div>
         </div>
     </script>
@@ -366,6 +366,8 @@
                                 item_desc = item;
                                 item = temp;
                             }
+                            item_desc = item_desc.replace("<b>", "\n");
+                            item_desc = item_desc.replace("</b>", "");
                             $('input[name="item"]').val(item.trim());
                             $('textarea[name="item_desc"]').val(item_desc.trim());
                             $('#hint_div').hide();
