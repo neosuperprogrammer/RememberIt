@@ -340,7 +340,8 @@
                 var result = data.data;
                 // console.log(result);
                 if (result.length > 0) {
-
+                    var offset = $('#form_input_item').offset().top - 10;
+                    $('#hint_div').css('top', offset);
                     $('#hint_div').show();
                     var raw_template = $('#item-template').html();
                     var template = Handlebars.compile(raw_template);
