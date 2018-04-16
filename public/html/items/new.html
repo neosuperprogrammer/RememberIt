@@ -299,7 +299,7 @@
         var searchItem = $('input[name="item"]').val();
         console.log("item : "+  searchItem);
         var url = "http://endic.naver.com/search.nhn?searchOption=all&query=" + searchItem;
-        window.location.href = url;
+        window.location.replace = url;
 
     });
     function isAlphaNumeric(str) {
