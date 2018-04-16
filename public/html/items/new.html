@@ -299,9 +299,9 @@ function GoBackWithRefresh(event) {
             data: $('form#myForm').serialize(),
             success: function(data) {
                 console.log('success : ' + data);
-//                 window.location.replace('/');
+                window.location.replace('/');
 //                 GoBackWithRefresh();
-                location.href = document.referrer
+//                 location.href = document.referrer
             }
         });
     });
