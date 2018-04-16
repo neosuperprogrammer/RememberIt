@@ -191,7 +191,9 @@
             });
             $('#top-div').click(function (evt) {
                 console.log("top");
-                $(window).scrollTop(0);
+                // $(window).scrollTop(0);
+                $('html, body').animate({ scrollTop: 0 }, 50);
+
             });
             setTitle();
             requestItems();
