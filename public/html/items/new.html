@@ -299,8 +299,14 @@
             data: $('form#myForm').serialize(),
             success: function(data) {
                 console.log('success : ' + data);
-                // window.location.replace('/');
-                window.location = document.referrer;
+                // window.history.go(-2);
+                // window.location.reload(history.back());
+                window.location.replace('/');
+                // window.location.href = document.referrer;
+                // window.location.replace(document.referrer)
+                // window.location.replace("/items");
+                // window.history.back();
+
 //                 GoBackWithRefresh();
 //                 location.href = document.referrer
             }
@@ -407,6 +413,8 @@
 
     $('#form_input_item').on('focus', function() {
         console.log('>>>> focus');
+        var n = $(document).height();
+        $('html, body').animate({ scrollTop: n }, 50);
         requestDelayedHint();
 
     });
