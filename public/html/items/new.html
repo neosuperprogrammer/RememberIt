@@ -413,8 +413,8 @@
 
     $('#form_input_item').on('focus', function() {
         console.log('>>>> focus');
-        var n = $(document).height();
-        $('html, body').animate({ scrollTop: n }, 50);
+        // var n = $(document).height();
+        $('html, body').animate({ scrollTop: 200 }, 50);
         requestDelayedHint();
 
     });
