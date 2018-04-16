@@ -290,7 +290,7 @@
             data: $('form#myForm').serialize(),
             success: function(data) {
                 console.log('success : ' + data);
-                window.location.href = '/';
+                window.location.replace('/');
             }
         });
     });
@@ -299,7 +299,7 @@
         var searchItem = $('input[name="item"]').val();
         console.log("item : "+  searchItem);
         var url = "http://endic.naver.com/search.nhn?searchOption=all&query=" + searchItem;
-        window.location.replace = url;
+        window.location.href = url;
 
     });
     function isAlphaNumeric(str) {
