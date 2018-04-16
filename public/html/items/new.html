@@ -290,7 +290,9 @@
             data: $('form#myForm').serialize(),
             success: function(data) {
                 console.log('success : ' + data);
-                window.location.replace('/');
+//                 window.location.replace('/');
+                window.history.back();
+				location.reload(); 
             }
         });
     });
