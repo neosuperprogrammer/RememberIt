@@ -300,7 +300,8 @@ function GoBackWithRefresh(event) {
             success: function(data) {
                 console.log('success : ' + data);
 //                 window.location.replace('/');
-                GoBackWithRefresh();
+//                 GoBackWithRefresh();
+                location.href = document.referrer
             }
         });
     });
