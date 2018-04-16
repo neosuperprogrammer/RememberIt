@@ -120,9 +120,11 @@ router.get("/search/items/", middleware.isLoggedIn, function (req, res) {
     var encodedWord = encodeURIComponent(word);
 
     urlStr = 'http://ac.endic.naver.com/ac?q=' + encodedWord + '&q_enc=utf-8&st=11001&r_format=json&r_enc=utf-8&r_lt=11001&r_unicode=0&r_escape=1';
+    // urlStr = 'http://ac.endic.naver.com/ac?_callback=' + encodeURIComponent('window.__jindo2_callback.$3308') +'&q=' + encodedWord + '&q_enc=utf-8&st=11001&r_format=json&r_enc=utf-8&r_lt=11001&r_unicode=0&r_escape=1';
+    console.log(urlStr);
     util.requestUrlContents(urlStr, function (data, err) {
         if (err) {
-            console.log('error >>> ' + error);
+            console.log('error >>> ' + err);
             var result = {
                 result: 'fail',
                 reason: err

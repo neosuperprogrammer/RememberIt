@@ -161,7 +161,7 @@
             background-color: white;
             /*width:100%;*/
             /*margin: 0 20px;*/
-            overflow: hidden;
+            overflow: auto;
 
             border: 1px solid #73AD21;
             padding: 0;
@@ -280,15 +280,15 @@
 </div>
 
 <script>
-function GoBackWithRefresh(event) {
-    if ('referrer' in document) {
-        window.location = document.referrer;
-        /* OR */
-        //location.replace(document.referrer);
-    } else {
-        window.history.back();
+    function GoBackWithRefresh(event) {
+        if ('referrer' in document) {
+            window.location = document.referrer;
+            /* OR */
+            //location.replace(document.referrer);
+        } else {
+            window.history.back();
+        }
     }
-}
     $('.submit-button').click( function(evt) {
         evt.preventDefault();
         setState(1);
@@ -299,7 +299,8 @@ function GoBackWithRefresh(event) {
             data: $('form#myForm').serialize(),
             success: function(data) {
                 console.log('success : ' + data);
-                window.location.replace('/');
+                // window.location.replace('/');
+                window.location = document.referrer;
 //                 GoBackWithRefresh();
 //                 location.href = document.referrer
             }
@@ -334,7 +335,7 @@ function GoBackWithRefresh(event) {
         }
         timeoutId = setTimeout(function() {
             requestHint();
-        }, 500);
+        }, 300);
     }
 
     function requestHint() {
@@ -366,6 +367,11 @@ function GoBackWithRefresh(event) {
 
                         $(element).unbind('click');
                         $(element).click(function (evt) {
+                            if (timeoutId != null) {
+                                clearTimeout(timeoutId);
+                                timeoutId = null;
+                            }
+
                             evt.preventDefault();
                             console.log(this);
                             var item = $(this).children('.item').html().trim();
