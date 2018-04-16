@@ -280,6 +280,15 @@
 </div>
 
 <script>
+function GoBackWithRefresh(event) {
+    if ('referrer' in document) {
+        window.location = document.referrer;
+        /* OR */
+        //location.replace(document.referrer);
+    } else {
+        window.history.back();
+    }
+}
     $('.submit-button').click( function(evt) {
         evt.preventDefault();
         setState(1);
@@ -291,8 +300,7 @@
             success: function(data) {
                 console.log('success : ' + data);
 //                 window.location.replace('/');
-                window.history.back();
-				location.reload(); 
+                GoBackWithRefresh();
             }
         });
     });
