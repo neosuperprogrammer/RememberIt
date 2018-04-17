@@ -389,8 +389,8 @@
                                 item_desc = item;
                                 item = temp;
                             }
-                            item_desc = item_desc.replace("<b>", "\n");
-                            item_desc = item_desc.replace("</b>", "");
+                            item_desc = item_desc.replace(/<b>/gi, "\n");
+                            item_desc = item_desc.replace(/<\/b>/gi, "");
                             
                             item_desc = item_desc.replace(/&lt;/gi, "<");
                             item_desc = item_desc.replace(/&gt;/gi, ">");
