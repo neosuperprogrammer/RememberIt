@@ -167,9 +167,9 @@ var requestItems = function () {
                         url: urlToRequest,
                         success: function (data) {
                             console.log("delete success : " + data);
-                            // window.location.replace("/items");
+                            window.location.replace("/");
                             // requestItems();
-                            updateContent();
+                            // updateContent();
                         },
                         data: {},
                         type: 'POST'
