@@ -254,7 +254,7 @@
     <div class="container">
         <div class="form-title">Add Item</div>
         <!--<form action="/items" method="post">-->
-        <form id="myForm">
+        <form id="myForm"  action="/items" method="POST">
             <div class="form-input">
                 <label>Item
                     <input id="form_input_item" type="text" name="item"  autocomplete="off"  style="text-transform: lowercase" >
@@ -301,11 +301,12 @@
                 console.log('success : ' + data);
                 // window.history.go(-2);
                 // window.location.reload(history.back());
-                window.location.replace('/');
+                // window.location.replace('/');
                 // window.location.href = document.referrer;
                 // window.location.replace(document.referrer)
                 // window.location.replace("/items");
-                // window.history.back();
+                setDirty(1);
+                window.history.back();
 
 //                 GoBackWithRefresh();
 //                 location.href = document.referrer

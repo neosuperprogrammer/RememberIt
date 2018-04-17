@@ -335,18 +335,46 @@
 
     </style>
     <script>
-        function gotoHome() {
-            setState(1);
-            window.location.href = "/";
-        }
+        // function gotoHome() {
+        //     setState(1);
+        //     window.location.replace('/');
+        // }
+        $(document).on('click', 'a[href="#home"]', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            // setState(1);
+            // window.history.back();
+            setDirty(1);
+            window.history.back();
+
+            // window.location.replace('/');
+
+        });
+
+        $(document).on('click', 'a[href="#logout"]', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            // setState(1);
+            // window.history.back();
+            $.getJSON("/api/logout", {}, function (data) {
+                setDirty(1);
+                window.history.back();
+            });
+
+            // window.location.replace('/');
+
+        });
+
     </script>
 
 </head>
 <body>
 <div class="nav">
     <ul class="nav-ul">
-        <li><a href="#" onclick="gotoHome();">&Xi; HOME</a></li>
-        <li style="float: right;"><a href="/LogOut"><i class="fas fa-sign-out-alt"></i></a></li>
+        <li><a href="#home">&Xi; HOME</a></li>
+        <!--<li style="float: right;"><a href="/LogOut"><i class="fas fa-sign-out-alt"></i></a></li>-->
+        <li style="float: right;"><a href="#logout"><i class="fas fa-sign-out-alt"></i></a></li>
+
     </ul>
 </div>
 

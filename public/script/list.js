@@ -298,6 +298,16 @@ function getState() {
     return state;
 }
 
+function setDirty(dirty) {
+    localStorage['dirty'] = dirty;
+}
+
+
+function getDirty() {
+    var dirty = localStorage['dirty'] || 0;
+    return dirty;
+}
+
 var updateContent = function (state) {
     // if (itemState == 1) {
     //     itemState = 2;

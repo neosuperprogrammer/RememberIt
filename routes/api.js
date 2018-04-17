@@ -283,6 +283,16 @@ router.get("/setting/elementary/:level", middleware.isLoggedIn, function (req, r
 
 });
 
+router.get('/logout',function(req,res){
+    delete req.session.user;
+    var result = {
+        result: 'success',
+    };
+    console.log('api log out ');
+    res.send(result);
+});
+
+
 router.get("/setting/items/", middleware.isLoggedIn, function (req, res) {
     // var page = req.params.page;
     // var state = req.query.state;
@@ -364,6 +374,7 @@ router.post("/items", middleware.isLoggedIn, function(req, res){
                 result: 'success'
             };
             res.send(result);
+
         }
     });
 });
