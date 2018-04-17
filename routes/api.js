@@ -292,6 +292,26 @@ router.get('/logout',function(req,res){
     res.send(result);
 });
 
+router.delete("/items/:id", middleware.checkUserItem, function(req, res){
+    console.log(">>>> api delete");
+    Items.findByIdAndRemove(req.params.id, function(err){
+        if(err){
+            console.log(err);
+            var result = {
+                result: 'fail',
+                reason:err
+            };
+            res.send(result);
+        } else {
+            var result = {
+                result: 'success'
+            };
+            res.send(result);
+        }
+    })
+});
+
+
 
 router.get("/setting/items/", middleware.isLoggedIn, function (req, res) {
     // var page = req.params.page;

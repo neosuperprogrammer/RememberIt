@@ -161,11 +161,12 @@ var requestItems = function () {
             $('.card-close-btn', elements).click(function (evt) {
                 console.log(this);
                 if (confirm('Delete?')) {
-                    var urlToRequest = "/items/" + evt.target.id + "?_method=DELETE";
+                    var urlToRequest = "/api/items/" + evt.target.id + "?_method=DELETE";
                     console.log("url " + urlToRequest);
                     $.ajax({
                         url: urlToRequest,
                         success: function (data) {
+                            console.log("delete success : " + data);
                             // window.location.replace("/items");
                             // requestItems();
                             updateContent();
