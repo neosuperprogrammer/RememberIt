@@ -227,16 +227,12 @@
         });
 
         function checkReload() {
-            alert('load');
-            console.log('>>>>>>>>>>>>>>> load : ' + new Date());
             if (getDirty() == 1) {
                 console.log('>>>>>>>>>>>>>>> dirty : ' + new Date());
                 setDirty(0);
+                updateContent(1);
                 // setState(1);
                 // window.location.replace('/');
-                setTimeout(function () {
-                    updateContent(1);
-                }, 100);
             }
         }
     </script>

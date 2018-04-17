@@ -344,10 +344,10 @@
             e.stopPropagation();
             // setState(1);
             // window.history.back();
-            setDirty(1);
-            window.history.back();
+            // setDirty(1);
+            // window.history.back();
 
-            // window.location.replace('/');
+            window.location.replace('/');
 
         });
 
@@ -357,11 +357,12 @@
             // setState(1);
             // window.history.back();
             $.getJSON("/api/logout", {}, function (data) {
-                setDirty(1);
-                window.history.back();
+                // setDirty(1);
+                // window.history.back();
+                window.location.replace('/');
             });
 
-            // window.location.replace('/');
+
 
         });
 
