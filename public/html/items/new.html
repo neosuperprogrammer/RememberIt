@@ -305,10 +305,8 @@
                 // window.location.href = document.referrer;
                 // window.location.replace(document.referrer)
                 // window.location.replace("/items");
-                setTimeout(function (ev) {
-                    setDirty(1);
-                    window.history.back();
-                }, 3000);
+                setDirty(1);
+                window.history.back();
 
 //                 GoBackWithRefresh();
 //                 location.href = document.referrer

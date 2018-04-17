@@ -229,9 +229,13 @@
         function checkReload() {
             console.log('>>>>>>>>>>>>>>> load : ' + new Date());
             if (getDirty() == 1) {
+                console.log('>>>>>>>>>>>>>>> dirty : ' + new Date());
                 setDirty(0);
-                setState(1);
-                window.location.replace('/');
+                // setState(1);
+                // window.location.replace('/');
+                setTimeout(function () {
+                    updateContent(1);
+                }, 100);
             }
         }
     </script>
