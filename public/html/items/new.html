@@ -391,8 +391,9 @@
                             }
                             item_desc = item_desc.replace("<b>", "\n");
                             item_desc = item_desc.replace("</b>", "");
-                            item_desc = item_desc.replace("&lt;", "<");
-                            item_desc = item_desc.replace("&gt;", ">");
+                            
+                            item_desc = item_desc.replace("/&lt;/gi", "<");
+                            item_desc = item_desc.replace("/&gt;/gi", ">");
                             $('input[name="item"]').val(item.trim());
                             $('textarea[name="item_desc"]').val(item_desc.trim());
                             $('#hint_div').hide();
