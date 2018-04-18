@@ -334,6 +334,7 @@ router.get("/setting/items/", middleware.isLoggedIn, function (req, res) {
             var state_3_count = 0;
             var state_4_count = 0;
             var state_5_count = 0;
+            var state_999_count = 0;
             var state_total = 0;
 
             items.forEach(function(value){
@@ -354,6 +355,9 @@ router.get("/setting/items/", middleware.isLoggedIn, function (req, res) {
                 else if (value.remember_state == 5) {
                     state_5_count++;
                 }
+                else if (value.remember_state == 999) {
+                    state_999_count++;
+                }
             });
 
             var result = {
@@ -363,6 +367,7 @@ router.get("/setting/items/", middleware.isLoggedIn, function (req, res) {
                 state_3_count : state_3_count,
                 state_4_count : state_4_count,
                 state_5_count : state_5_count,
+                state_999_count : state_999_count,
                 state_total : state_total,
             };
             console.log('result ' +  result);
@@ -569,8 +574,6 @@ router.get("/items/forgot/:id", middleware.checkUserItem, function (req, res) {
         }
 
     });
-
-
     // Items.findByIdAndUpdateState(req.params.id, 1, function(err){
     //     if(err){
     //         console.log(err);
@@ -627,4 +630,109 @@ router.get("/items/forgot/:id", middleware.checkUserItem, function (req, res) {
 //     }
 //   });
 });
+
+router.get("/items/jargon/:id", middleware.checkUserItem, function (req, res) {
+    var id = req.params.id;
+
+    console.log("jargon id : " + id);
+
+    Items.findById(id, function(err, foundItem){
+        if (err) {
+            var result = {
+                result: 'fail',
+                err: 'item not found : ' + err
+            };
+            res.send(result);
+
+        } else {
+            if (foundItem) {
+                // var result = {
+                //     result: 'success',
+                //     item: foundItem
+                // };
+                // console.log('found item ' + foundItem);
+                var rememberState = 999;
+                Items.findByIdAndUpdateState(req.params.id, rememberState, function(err){
+                    if(err){
+                        console.log(err);
+                        var result = {
+                            result: 'fail',
+                            err: err
+                        };
+                        res.send(result);
+
+                    } else {
+                        var result = {
+                            result: 'success',
+                            id: id
+                        };
+                        res.send(result);
+                    }
+                })
+
+            } else {
+                var result = {
+                    result: 'fail',
+                    err: 'item not found'
+                };
+                res.send(result);
+
+            }
+        }
+
+    });
+});
+
+router.get("/items/unjargon/:id", middleware.checkUserItem, function (req, res) {
+    var id = req.params.id;
+
+    console.log("unjargon id : " + id);
+
+    Items.findById(id, function(err, foundItem){
+        if (err) {
+            var result = {
+                result: 'fail',
+                err: 'item not found : ' + err
+            };
+            res.send(result);
+
+        } else {
+            if (foundItem) {
+                // var result = {
+                //     result: 'success',
+                //     item: foundItem
+                // };
+                // console.log('found item ' + foundItem);
+                var rememberState = 1;
+                Items.findByIdAndUpdateState(req.params.id, rememberState, function(err){
+                    if(err){
+                        console.log(err);
+                        var result = {
+                            result: 'fail',
+                            err: err
+                        };
+                        res.send(result);
+
+                    } else {
+                        var result = {
+                            result: 'success',
+                            id: id
+                        };
+                        res.send(result);
+                    }
+                })
+
+            } else {
+                var result = {
+                    result: 'fail',
+                    err: 'item not found'
+                };
+                res.send(result);
+
+            }
+        }
+
+    });
+});
+
 module.exports = router;

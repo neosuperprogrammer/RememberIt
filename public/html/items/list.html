@@ -89,7 +89,7 @@
             // return datestring;
             var remained = remainedHours(d);
             var comment = 'You can change state after ' + remained + ' hours';
-            if (remained <= 0) {
+            if (remained <= 0 || itemState == 1) {
                 comment = 'You can change state';
             }
             return comment;
@@ -115,6 +115,7 @@
             <button class="card-close-btn" id="{{id}}">X</button>
             <div class="card">
                 <div class="card-title">
+                    <div class="card-title-jargon" id={{id}}><i class="fab fa-gitkraken"></i></div>
                     <div class="card-title-content">{{item}}</div>
                     <div class="card-title-edit" id={{id}}><i class="far fa-edit"></i></div>
                 </div>
@@ -189,6 +190,12 @@
                 //post code
                 updateContent(5);
             });
+            $('.dropdown-menu999').on("click",function(){
+                // var usersid =  $(this).attr("id");
+                $('.dropdown-content').toggle('show');
+                //post code
+                updateContent(999);
+            });
             $('#top-div').click(function (evt) {
                 console.log("top");
                 // $(window).scrollTop(0);
@@ -253,6 +260,7 @@
                         <a href="#" class="dropdown-menu3">2'nd Turn</a>
                         <a href="#" class="dropdown-menu4">3'rd Turn</a>
                         <a href="#" class="dropdown-menu5">Long-Term Memory</a>
+                        <a href="#" class="dropdown-menu999">Jargonal</a>
                     </div>
                 </div>
             </li>

@@ -131,6 +131,47 @@ var requestItems = function () {
                 return false;
             });
 
+            $('.card-title-jargon', elements).click(function (evt) {
+                var button = $(this);
+                if (itemState == 999) {
+                    if (confirm('Move To Newly Added?')) {
+                        var urlToRequest = "/api/items/unjargon/" + this.id;
+                        console.log('request : ' + urlToRequest);
+                        $.ajax({
+                            url: urlToRequest,
+                            success: function (data) {
+                                console.log(data.result);
+                                if (data.result == "success") {
+                                    // console.log(button.parent());
+                                    button.parent().parent().addClass("memorized");
+                                    // button.text('hi');
+                                }
+                            }
+                        });
+                    }
+
+                } else {
+                    if (confirm('Too Jargonal?')) {
+                        var urlToRequest = "/api/items/jargon/" + this.id;
+                        console.log('request : ' + urlToRequest);
+                        $.ajax({
+                            url: urlToRequest,
+                            success: function (data) {
+                                console.log(data.result);
+                                if (data.result == "success") {
+                                    // console.log(button.parent());
+                                    button.parent().parent().addClass("memorized");
+                                    // button.text('hi');
+                                }
+                            }
+                        });
+                    }
+                }
+                evt.preventDefault();
+                return false;
+
+            });
+
             $(".card-update-button", elements).click
             (
                 function (evt) {
@@ -250,11 +291,19 @@ var requestItems = function () {
             var d = new Date(item.remembered);
             // console.log('item.remembered : ' + item.remembered);
             var remained = remainedHours(d);
-            if (remained <= 0) {
+            if (remained <= 0 || itemState == 1) {
                 $('.card-state-div', elements).show();
             } else {
                 $('.card-state-div', elements).hide();
             }
+            if (itemState == 999) {
+                $('.card-state-div', elements).hide();
+                $('.card-created', elements).hide();
+            } else {
+                $('.card-created', elements).show();
+            }
+
+
         });
 
 
@@ -280,6 +329,11 @@ var setTitle = function () {
         // document.write("Can't forget");
         $('#main-title').text("Long-Term Memory");
     }
+    else if (itemState == 999) {
+        // document.write("Can't forget");
+        $('#main-title').text("Jargonal");
+    }
+
 };
 var getUpdateTitle = function () {
     if (itemState == 1) {
