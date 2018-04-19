@@ -32,7 +32,7 @@ var contents = {
       next();
     } else {
       req.flash("error", "You must be signed in to do that");
-      res.redirect("/LogIn");
+      res.redirect("/SignIn");
     }
   }
 

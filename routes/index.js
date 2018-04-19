@@ -68,8 +68,7 @@ router.post("/SignIn", function(req, res){
   if (User.findOne(email, function (err, user) {
       if (err) {
 
-//         res.send(err);
-        res.redirect('/');
+        res.send(err);
       } else if (user) {
         hasher({password:password, salt:user.salt}, function(err, pass, salt, hash){
           if (hash == user.hash) {
