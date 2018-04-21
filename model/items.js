@@ -166,8 +166,8 @@ var contents = {
     findByIdAndUpdateStateAndForgetCount: function (itemId, state, forgetCount, done) {
         var now = new Date();
         // console.log('now : ' + now + ', state : ' + state);
-        conn.query('UPDATE items SET remember_state = ?, forget_count = ?, remembered = ? WHERE id = ?',
-            [state, forgetCount, now, itemId], function (err, results) {
+        conn.query('UPDATE items SET remember_state = ?, forget_count = ?, created = ?, remembered = ? WHERE id = ?',
+            [state, forgetCount, now, now, itemId], function (err, results) {
                 if (err) {
                     console.log(err);
                     done(err);
