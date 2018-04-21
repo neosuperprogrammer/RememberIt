@@ -543,7 +543,11 @@ router.get("/items/forgot/:id", middleware.checkUserItem, function (req, res) {
                 else if (rememberState == 2) {
                     rememberState = 1;
                 }
-                Items.findByIdAndUpdateState(req.params.id, rememberState, function(err){
+
+                var forgetCount = foundItem.forget_count;
+                forgetCount++;
+
+                Items.findByIdAndUpdateStateAndForgetCount(req.params.id, rememberState, forgetCount, function(err){
                     if(err){
                         console.log(err);
                         var result = {

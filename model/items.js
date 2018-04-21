@@ -157,7 +157,21 @@ var contents = {
                     console.log(err);
                     done(err);
                 } else {
+                    console.log(">>>>>>>>>>>>>>>>>>>> " + results.constructor);
+                    done(null, results);
+                }
+            });
+    },
 
+    findByIdAndUpdateStateAndForgetCount: function (itemId, state, forgetCount, done) {
+        var now = new Date();
+        // console.log('now : ' + now + ', state : ' + state);
+        conn.query('UPDATE items SET remember_state = ?, forget_count = ?, remembered = ? WHERE id = ?',
+            [state, forgetCount, now, itemId], function (err, results) {
+                if (err) {
+                    console.log(err);
+                    done(err);
+                } else {
                     console.log(">>>>>>>>>>>>>>>>>>>> " + results.constructor);
                     done(null, results);
                 }

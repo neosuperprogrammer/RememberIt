@@ -78,6 +78,25 @@ var requestItems = function () {
             placeHolder.append(elements);
 
 
+            if (item.forget_count == 0) {
+                $('.card-title', elements).css('background-color', '#73AD21');
+            }
+            else if (item.forget_count == 1) {
+                $('.card-title', elements).css('background-color', '#adac1f');
+            }
+            else if (item.forget_count == 2) {
+                $('.card-title', elements).css('background-color', '#bb832f');
+            }
+            else if (item.forget_count == 3) {
+                $('.card-title', elements).css('background-color', '#bb363b');
+            }
+            else if (item.forget_count == 4) {
+                $('.card-title', elements).css('background-color', '#bb3ca5');
+            }
+            else  {
+                $('.card-title', elements).css('background-color', '#9047bb');
+            }
+
             $('.card-desc-block', elements).unbind('click');
             $('.card-desc-block', elements).click(function (evt) {
                 evt.preventDefault();

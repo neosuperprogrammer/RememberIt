@@ -80,7 +80,9 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         item: item,
         item_desc: itemDesc,
         remember_state: 1,
-        created: created
+        forget_count: 0,
+        created: created,
+        remembered: created
     };
     Items.create(newItem, function(err){
         if (err) {
