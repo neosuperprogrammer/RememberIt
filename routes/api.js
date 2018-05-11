@@ -26,9 +26,11 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 router.get("/items/page/:page", middleware.isLoggedIn, function (req, res) {
     var page = req.params.page;
     var state = req.query.state;
+    var sort = req.query.sort;
 
     console.log("page : " + page);
     console.log("state : " + state);
+    console.log("sort : " + sort);
     var email = req.session.user.email;
     var start = 0;
     var countPerPage = 20;
@@ -54,7 +56,7 @@ router.get("/items/page/:page", middleware.isLoggedIn, function (req, res) {
 //             res.send(result);
 //         }
 //     });
-    Items.findByPageAndState(email, start, countPerPage, state, function (err, items) {
+    Items.findByPageAndState(email, start, countPerPage, state, sort, function (err, items) {
         if (err) {
             var result = {
                 result: 'fail',

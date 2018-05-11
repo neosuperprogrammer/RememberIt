@@ -292,6 +292,7 @@
     $('.submit-button').click( function(evt) {
         evt.preventDefault();
         setState(1);
+        setSort(1);
         $.ajax({
             url: '/api/items',
             type: 'post',
@@ -307,6 +308,7 @@
                 // window.location.replace("/items");
                 // setDirty(1);
                 // window.history.back();
+
                 window.location.replace('/');
 
 //                 GoBackWithRefresh();

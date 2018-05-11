@@ -1,5 +1,6 @@
 var pageToRequest = 1;
 var itemState = 1;
+var sortOrder = 0;
 var requestEnd = 0;
 var inRequest = 0;
 
@@ -57,7 +58,9 @@ var requestItems = function () {
     console.log("===============request");
     inRequest = 1;
     itemState = getState();
-    $.getJSON("/api/items/page/" + pageToRequest + "?state=" + itemState, {}, function (data) {
+    sortOrder = getSort();
+    // console.log("sortOder : "  + sortOrder);
+    $.getJSON("/api/items/page/" + pageToRequest + "?state=" + itemState + "&sort=" + sortOrder, {}, function (data) {
         inRequest = 0;
         $('.loading-div').remove();
         console.log(data);
@@ -354,6 +357,12 @@ var setTitle = function () {
     }
 
 };
+
+var setSortOrderTitle = function() {
+    // console.log('setSortOrderTitle : ' + sortOrder);
+    $('#main-sort').text(sortOrder == 0 ? "To Newest" : "To Oldest");
+};
+
 var getUpdateTitle = function () {
     if (itemState == 1) {
         document.write("Move to memorized");
@@ -370,6 +379,15 @@ function setState(state) {
 function getState() {
     var state = localStorage['state'] || 1;
     return state;
+}
+
+function setSort(sort) {
+    localStorage['sort'] = sort;
+}
+
+function getSort() {
+    var sort = localStorage['sort'] || 0;
+    return sort;
 }
 
 function setDirty(dirty) {
@@ -399,6 +417,7 @@ var updateContent = function (state) {
     //
     // $('#update-content-button').text(itemState == 1 ? "Move to memorized" : "Move to memorize");
     setTitle();
+    setSortOrderTitle();
     var placeHolder = $('#content');
     placeHolder.empty();
     requestEnd = 0;

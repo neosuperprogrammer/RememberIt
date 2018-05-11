@@ -39,9 +39,14 @@ var contents = {
             }
         });
     },
-    findByPageAndState: function (userEmail, start, limit, state, done) {
+    findByPageAndState: function (userEmail, start, limit, state, sort, done) {
         if (state == 1) {
-            conn.query('select * from items where user_email = ? and remember_state = ? ORDER BY created DESC LIMIT ?, ?', [userEmail, state, start, limit], function (err, result) {
+            var queryString = 'select * from items where user_email = ? and remember_state = ? ORDER BY created DESC LIMIT ?, ?';
+            if (sort == 0) {
+                queryString = 'select * from items where user_email = ? and remember_state = ? ORDER BY created ASC LIMIT ?, ?';
+            }
+
+            conn.query(queryString, [userEmail, state, start, limit], function (err, result) {
                 if (err) {
                     console.log(err);
                     //req.flash({'error':err.message});
@@ -52,7 +57,12 @@ var contents = {
             });
         }
         else {
-            conn.query('select * from items where user_email = ? and remember_state = ? ORDER BY remembered ASC LIMIT ?, ?', [userEmail, state, start, limit], function (err, result) {
+            var queryString = 'select * from items where user_email = ? and remember_state = ? ORDER BY remembered DESC LIMIT ?, ?';
+            if (sort == 0) {
+                queryString = 'select * from items where user_email = ? and remember_state = ? ORDER BY remembered ASC LIMIT ?, ?';
+            }
+
+            conn.query(queryString, [userEmail, state, start, limit], function (err, result) {
                 if (err) {
                     console.log(err);
                     //req.flash({'error':err.message});
