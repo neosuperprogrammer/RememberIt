@@ -10,11 +10,12 @@ var app             = express();
 
 
 var options = {
-  host: 'localhost',
-  port: 3306,
-  user: 'flowgrammer',
-  password: 'qwer1234',
-  database: 'remember_it'
+    host: 'localhost',
+    port: 3306,
+    user: 'flowgrammer',
+    password: 'qwer1234',
+    database: 'remember_it',
+    expiration: Date.now() + (365 * 86400 * 1000)
 };
 
 app.use(session({
@@ -22,6 +23,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: new MySQLStore(options),
+    expires: new Date(Date.now() + (30 * 86400 * 1000)),
     maxAge: Date.now() + (365 * 86400 * 1000)
   }
 ));
@@ -54,6 +56,7 @@ app.use(flash());
 var indexRoutes   = require("./routes/index");
 var itemsRoutes = require("./routes/items")
 var apiRoutes = require("./routes/api")
+
 
 app.use("/", indexRoutes);
 app.use("/items", itemsRoutes);
