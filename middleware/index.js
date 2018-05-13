@@ -23,7 +23,7 @@ var contents = {
       });
     } else {
       console.log("You need to be signed in to do that!");
-      res.redirect("/LogIn");
+      res.redirect("/SignIn");
     }
   },
 
