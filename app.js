@@ -25,7 +25,10 @@ app.use(session({
     store: new MySQLStore(options),
     expires: new Date(Date.now() + (365 * 86400 * 1000)),
     maxAge: 365 * 86400 * 1000,
-    cookie: { maxAge: 365 * 86400 * 1000 }
+    cookie: {
+        expires: new Date(Date.now() + 365 * 86400 * 1000),
+        maxAge: 365 * 86400 * 1000
+    }
   }
 ));
 
