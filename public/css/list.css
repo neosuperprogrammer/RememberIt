@@ -128,7 +128,7 @@
 	color: white;
 	border-radius: 10px;
 	background-color: #67b168;
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.2);
 }
 
 #main-sort:hover {
