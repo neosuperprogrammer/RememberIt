@@ -119,3 +119,18 @@
 	margin-top: 30px;
 	z-index: 99;
 }
+
+#main-sort {
+	position: absolute;
+	top: 100px;
+	right: 30px;
+	padding: 5px 12px;
+	color: white;
+	border-radius: 10px;
+	background-color: #67b168;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+#main-sort:hover {
+	color: #88eb8a;
+}
