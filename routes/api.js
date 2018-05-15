@@ -534,7 +534,7 @@ router.get("/items/forgot/:id", middleware.checkUserItem, function (req, res) {
                 // console.log('found item ' + foundItem);
                 var rememberState = foundItem.remember_state;
                 if (rememberState == 5) {
-                    rememberState = 4;
+                    rememberState = 1;
                 }
                 else if (rememberState == 4) {
                     rememberState = 3;
