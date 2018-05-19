@@ -38,7 +38,6 @@ var requestItems = function () {
     if (requestEnd == 1) {
         console.log('request ended');
         $('.loading-div').remove();
-
         return;
     }
 
@@ -46,288 +45,298 @@ var requestItems = function () {
         return;
     }
 
-    var raw_template = $('#card-template').html();
-    // Complile that into an handlebars template
-    var template = Handlebars.compile(raw_template);
-    // Retrieve the placeHolder where the posts will be displayed
-    var placeHolder = $('#content');
-    placeHolder.append("<div class='loading-div col-12'><div class='loading-text'><i class='fas fa-spinner fa-spin'></i></div></div>");
-    if (pageToRequest > 1) {
-        $(window).scrollTop($(document).height());
-    }
     console.log("===============request");
     inRequest = 1;
+
+    var raw_template = $('#card-template').html();
+    var template = Handlebars.compile(raw_template);
+    var placeHolder = $('#content');
+
+    // if (pageToRequest > 1) {
+    //     $(window).scrollTop($(document).height());
+    // }
     itemState = getState();
     sortOrder = getSort();
     // console.log("sortOder : "  + sortOrder);
     $.getJSON("/api/items/page/" + pageToRequest + "?state=" + itemState + "&sort=" + sortOrder, {}, function (data) {
-        inRequest = 0;
         $('.loading-div').remove();
         console.log(data);
         console.log("length" + data.items.length);
+        inRequest = 0;
         if (data.items.length == 0) {
             requestEnd = 1;
             if (pageToRequest == 1) {
                 placeHolder.append("<div class='loading-div col-6'><i class='far fa-thumbs-up''></i></div>");
+            } else {
+                $('.loading-div').remove();
             }
         }
-        pageToRequest++;
-
-        data.items.forEach(function (item) {
-            var html = template(item);
-            // placeHolder.append(html);
-            // console.dir(">>>>>>>>>>>" + html);
-            var elements = $(html);
-            placeHolder.append(elements);
-
-
-            if (item.forget_count == 0) {
-                $('.card-title', elements).css('background-color', '#73AD21');
-            }
-            else if (item.forget_count == 1) {
-                $('.card-title', elements).css('background-color', '#adac1f');
-            }
-            else if (item.forget_count == 2) {
-                $('.card-title', elements).css('background-color', '#bb832f');
-            }
-            else if (item.forget_count == 3) {
-                $('.card-title', elements).css('background-color', '#bb363b');
-            }
-            else if (item.forget_count == 4) {
-                $('.card-title', elements).css('background-color', '#bb3ca5');
-            }
-            else  {
-                $('.card-title', elements).css('background-color', '#9047bb');
-            }
-
-            $('.card-desc-block', elements).unbind('click');
-            $('.card-desc-block', elements).click(function (evt) {
-                evt.preventDefault();
-                // console.log(this);
-                $(this).toggleClass('hidden');
-
-                // var urlStr = 'http://endic.naver.com/nvoice?service=endic&speech_fmt=mp3&from=endic&text=He%20was%20born%20in%20the%20Year%20of%20the%20Rabbit%2e&vcode=381000&speaker=clara';
+        else {
+            data.items.forEach(function (item) {
+                var html = template(item);
+                // placeHolder.append(html);
+                // console.dir(">>>>>>>>>>>" + html);
+                var elements = $(html);
+                placeHolder.append(elements);
 
 
-                // var xhr = createCORSRequest('GET', urlStr);
-                // if (!xhr) {
-                //     throw new Error('CORS not supported');
-                // }
-                //
-                // xhr.onload = function() {
-                //     var responseText = xhr.responseText;
-                //     console.log(responseText);
-                //     // process the response.
-                // };
-                //
-                // xhr.onerror = function() {
-                //     console.log('There was an error!');
-                // };
-                // xhr.withCredentials = true;
-                // xhr.send();
-
-                // urlStr = 'http://ac.endic.naver.com/ac?q=zl&q_enc=utf-8&st=11001&r_format=json&r_enc=utf-8&r_lt=11001&r_unicode=0&r_escape=1';
-                // $.ajax({
-                //     url: urlStr,
-                //     type: 'get',
-                //     dataType: 'jsonp',
-                //     // responseType: 'blob',
-                //     success: function (data) {
-                //         console.log('success ' + data);
-                //     },
-                //     error: function (error) {
-                //         console.log('error >>> ' + error);
-                //     }
-                //
-                // });
-
-
-            });
-
-            $('.card-title-edit', elements).click(function (evt) {
-                var urlToRequest = "/items/" + this.id;
-                console.log("location : " + urlToRequest);
-                window.location.href = urlToRequest;
-                // 					window.location.replace(urlToRequest);
-                evt.preventDefault();
-                return false;
-            });
-
-            $('.card-title-jargon', elements).click(function (evt) {
-                var button = $(this);
-                if (itemState == 999) {
-                    if (confirm('Move To Newly Added?')) {
-                        var urlToRequest = "/api/items/unjargon/" + this.id;
-                        console.log('request : ' + urlToRequest);
-                        $.ajax({
-                            url: urlToRequest,
-                            success: function (data) {
-                                console.log(data.result);
-                                if (data.result == "success") {
-                                    // console.log(button.parent());
-                                    button.parent().parent().addClass("memorized");
-                                    // button.text('hi');
-                                }
-                            }
-                        });
-                    }
-
-                } else {
-                    if (confirm('Too Jargonal?')) {
-                        var urlToRequest = "/api/items/jargon/" + this.id;
-                        console.log('request : ' + urlToRequest);
-                        $.ajax({
-                            url: urlToRequest,
-                            success: function (data) {
-                                console.log(data.result);
-                                if (data.result == "success") {
-                                    // console.log(button.parent());
-                                    button.parent().parent().addClass("memorized");
-                                    // button.text('hi');
-                                }
-                            }
-                        });
-                    }
+                if (item.forget_count == 0) {
+                    $('.card-title', elements).css('background-color', '#73AD21');
                 }
-                evt.preventDefault();
-                return false;
+                else if (item.forget_count == 1) {
+                    $('.card-title', elements).css('background-color', '#adac1f');
+                }
+                else if (item.forget_count == 2) {
+                    $('.card-title', elements).css('background-color', '#bb832f');
+                }
+                else if (item.forget_count == 3) {
+                    $('.card-title', elements).css('background-color', '#bb363b');
+                }
+                else if (item.forget_count == 4) {
+                    $('.card-title', elements).css('background-color', '#bb3ca5');
+                }
+                else  {
+                    $('.card-title', elements).css('background-color', '#9047bb');
+                }
 
-            });
+                $('.card-desc-block', elements).unbind('click');
+                $('.card-desc-block', elements).click(function (evt) {
+                    evt.preventDefault();
+                    // console.log(this);
+                    $(this).toggleClass('hidden');
 
-            $(".card-update-button", elements).click
-            (
-                function (evt) {
-                    //YOUR CODE HERE
-                    // console.log(evt.target);
+                    // var urlStr = 'http://endic.naver.com/nvoice?service=endic&speech_fmt=mp3&from=endic&text=He%20was%20born%20in%20the%20Year%20of%20the%20Rabbit%2e&vcode=381000&speaker=clara';
+
+
+                    // var xhr = createCORSRequest('GET', urlStr);
+                    // if (!xhr) {
+                    //     throw new Error('CORS not supported');
+                    // }
+                    //
+                    // xhr.onload = function() {
+                    //     var responseText = xhr.responseText;
+                    //     console.log(responseText);
+                    //     // process the response.
+                    // };
+                    //
+                    // xhr.onerror = function() {
+                    //     console.log('There was an error!');
+                    // };
+                    // xhr.withCredentials = true;
+                    // xhr.send();
+
+                    // urlStr = 'http://ac.endic.naver.com/ac?q=zl&q_enc=utf-8&st=11001&r_format=json&r_enc=utf-8&r_lt=11001&r_unicode=0&r_escape=1';
+                    // $.ajax({
+                    //     url: urlStr,
+                    //     type: 'get',
+                    //     dataType: 'jsonp',
+                    //     // responseType: 'blob',
+                    //     success: function (data) {
+                    //         console.log('success ' + data);
+                    //     },
+                    //     error: function (error) {
+                    //         console.log('error >>> ' + error);
+                    //     }
+                    //
+                    // });
+
+
+                });
+
+                $('.card-title-edit', elements).click(function (evt) {
+                    var urlToRequest = "/items/" + this.id;
+                    console.log("location : " + urlToRequest);
+                    window.location.href = urlToRequest;
+                    // 					window.location.replace(urlToRequest);
+                    evt.preventDefault();
+                    return false;
+                });
+
+                $('.card-title-jargon', elements).click(function (evt) {
                     var button = $(this);
-                    // $(this).text("hi");
-                    var urlToRequest = "/api/items/memorized/" + evt.target.id;
-                    if (itemState == 2) {
+                    if (itemState == 999) {
+                        if (confirm('Move To Newly Added?')) {
+                            var urlToRequest = "/api/items/unjargon/" + this.id;
+                            console.log('request : ' + urlToRequest);
+                            $.ajax({
+                                url: urlToRequest,
+                                success: function (data) {
+                                    console.log(data.result);
+                                    if (data.result == "success") {
+                                        // console.log(button.parent());
+                                        button.parent().parent().addClass("memorized");
+                                        // button.text('hi');
+                                    }
+                                }
+                            });
+                        }
+
+                    } else {
+                        if (confirm('Too Jargonal?')) {
+                            var urlToRequest = "/api/items/jargon/" + this.id;
+                            console.log('request : ' + urlToRequest);
+                            $.ajax({
+                                url: urlToRequest,
+                                success: function (data) {
+                                    console.log(data.result);
+                                    if (data.result == "success") {
+                                        // console.log(button.parent());
+                                        button.parent().parent().addClass("memorized");
+                                        // button.text('hi');
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    evt.preventDefault();
+                    return false;
+
+                });
+
+                $(".card-update-button", elements).click
+                (
+                    function (evt) {
+                        //YOUR CODE HERE
+                        // console.log(evt.target);
+                        var button = $(this);
+                        // $(this).text("hi");
+                        var urlToRequest = "/api/items/memorized/" + evt.target.id;
+                        if (itemState == 2) {
+                            var urlToRequest = "/api/items/forgot/" + evt.target.id;
+                        }
+                        $.ajax({
+                            url: urlToRequest,
+                            success: function (data) {
+                                console.log(data.result);
+                                if (data.result == "success") {
+                                    // console.log(button.parent());
+                                    button.parent().parent().parent().addClass("memorized");
+                                    // button.text('hi');
+                                }
+                            }
+                        });
+
+                        evt.preventDefault();
+                        return false;
+                    }
+                );
+                $('.card-close-btn', elements).click(function (evt) {
+                    console.log(this);
+                    if (confirm('Delete?')) {
+                        var urlToRequest = "/api/items/" + evt.target.id + "?_method=DELETE";
+                        console.log("url " + urlToRequest);
+                        $.ajax({
+                            url: urlToRequest,
+                            success: function (data) {
+                                console.log("delete success : " + data);
+                                window.location.replace("/");
+                                // requestItems();
+                                // updateContent();
+                            },
+                            data: {},
+                            type: 'POST'
+                        });
+
+                    } else {
+                    }
+                    evt.preventDefault();
+                    return false;
+                });
+                $('.card-forget-check-box', elements).change(function (evt) {
+                    // this will contain a reference to the checkbox
+                    if (this.checked) {
+                        console.log('checked');
+                        var button = $(this);
+                        // var urlToRequest = "/api/items/memorized/" + evt.target.id;
+                        // if (itemState == 2) {
                         var urlToRequest = "/api/items/forgot/" + evt.target.id;
+                        // }
+                        $.ajax({
+                            url: urlToRequest,
+                            success: function (data) {
+                                console.log(data.result);
+                                if (data.result == "success") {
+                                    // console.log(button.parent());
+                                    button.parent().parent().parent().parent().parent().addClass("memorized");
+                                    // button.text('hi');
+                                }
+                            }
+                        });
+
+                        evt.preventDefault();
+                        return false;
+
+                    } else {
+                        console.log('unchecked');
                     }
-                    $.ajax({
-                        url: urlToRequest,
-                        success: function (data) {
-                            console.log(data.result);
-                            if (data.result == "success") {
-                                // console.log(button.parent());
-                                button.parent().parent().parent().addClass("memorized");
-                                // button.text('hi');
+                });
+                $('.card-remember-check-box', elements).change(function (evt) {
+                    // this will contain a reference to the checkbox
+                    if (this.checked) {
+                        console.log('checked');
+                        var button = $(this);
+                        var urlToRequest = "/api/items/memorized/" + evt.target.id;
+                        // if (itemState == 2) {
+                        //     var urlToRequest = "/api/items/forgot/" + evt.target.id;
+                        // }
+                        $.ajax({
+                            url: urlToRequest,
+                            success: function (data) {
+                                console.log(data.result);
+                                if (data.result == "success") {
+                                    // console.log(button.parent());
+                                    button.parent().parent().parent().parent().parent().addClass("memorized");
+                                    // button.text('hi');
+                                }
                             }
-                        }
-                    });
+                        });
 
-                    evt.preventDefault();
-                    return false;
+                        evt.preventDefault();
+                        return false;
+
+                    } else {
+                        console.log('unchecked');
+                    }
+                });
+                $('.card-forget-check-text', elements).css('color', '#474747');
+                $('.card-remember-check-text', elements).css('color', '#474747');
+                if (itemState == 1) {
+                    $('.card-forget-check-text', elements).css('color', '#adadad');
+                    $('.card-forget-check-box', elements).prop('disabled', true);
                 }
-            );
-            $('.card-close-btn', elements).click(function (evt) {
-                console.log(this);
-                if (confirm('Delete?')) {
-                    var urlToRequest = "/api/items/" + evt.target.id + "?_method=DELETE";
-                    console.log("url " + urlToRequest);
-                    $.ajax({
-                        url: urlToRequest,
-                        success: function (data) {
-                            console.log("delete success : " + data);
-                            window.location.replace("/");
-                            // requestItems();
-                            // updateContent();
-                        },
-                        data: {},
-                        type: 'POST'
-                    });
+                else if (itemState == 5) {
+                    $('.card-remember-check-text', elements).css('color', '#adadad');
+                    $('.card-remember-check-box', elements).prop('disabled', true);
+                }
 
+                var d = new Date(item.remembered);
+                // console.log('item.remembered : ' + item.remembered);
+                var remained = remainedHours(d);
+                if (remained <= 0 || itemState == 1) {
+                    $('.card-state-div', elements).show();
                 } else {
+                    $('.card-state-div', elements).hide();
                 }
-                evt.preventDefault();
-                return false;
-            });
-            $('.card-forget-check-box', elements).change(function (evt) {
-                // this will contain a reference to the checkbox
-                if (this.checked) {
-                    console.log('checked');
-                    var button = $(this);
-                    // var urlToRequest = "/api/items/memorized/" + evt.target.id;
-                    // if (itemState == 2) {
-                    var urlToRequest = "/api/items/forgot/" + evt.target.id;
-                    // }
-                    $.ajax({
-                        url: urlToRequest,
-                        success: function (data) {
-                            console.log(data.result);
-                            if (data.result == "success") {
-                                // console.log(button.parent());
-                                button.parent().parent().parent().parent().parent().addClass("memorized");
-                                // button.text('hi');
-                            }
-                        }
-                    });
-
-                    evt.preventDefault();
-                    return false;
-
+                if (itemState == 999) {
+                    $('.card-state-div', elements).hide();
+                    $('.card-created', elements).hide();
                 } else {
-                    console.log('unchecked');
+                    $('.card-created', elements).show();
                 }
+
+
             });
-            $('.card-remember-check-box', elements).change(function (evt) {
-                // this will contain a reference to the checkbox
-                if (this.checked) {
-                    console.log('checked');
-                    var button = $(this);
-                    var urlToRequest = "/api/items/memorized/" + evt.target.id;
-                    // if (itemState == 2) {
-                    //     var urlToRequest = "/api/items/forgot/" + evt.target.id;
-                    // }
-                    $.ajax({
-                        url: urlToRequest,
-                        success: function (data) {
-                            console.log(data.result);
-                            if (data.result == "success") {
-                                // console.log(button.parent());
-                                button.parent().parent().parent().parent().parent().addClass("memorized");
-                                // button.text('hi');
-                            }
-                        }
-                    });
-
-                    evt.preventDefault();
-                    return false;
-
-                } else {
-                    console.log('unchecked');
-                }
-            });
-            $('.card-forget-check-text', elements).css('color', '#474747');
-            $('.card-remember-check-text', elements).css('color', '#474747');
-            if (itemState == 1) {
-                $('.card-forget-check-text', elements).css('color', '#adadad');
-                $('.card-forget-check-box', elements).prop('disabled', true);
+            pageToRequest++;
+            // console.log('document height : ' + $(document).height());
+            // console.log('window height : ' + $(window).height());
+            if ($(document).height() <= $(window).height()) {
+                // console.log('so request .....');
+                requestItems();
             }
-            else if (itemState == 5) {
-                $('.card-remember-check-text', elements).css('color', '#adadad');
-                $('.card-remember-check-box', elements).prop('disabled', true);
+            else {
+                placeHolder.append("<div class='loading-div col-12'><div class='loading-text'><i class='fas fa-spinner fa-spin'></i></div></div>");
             }
-
-            var d = new Date(item.remembered);
-            // console.log('item.remembered : ' + item.remembered);
-            var remained = remainedHours(d);
-            if (remained <= 0 || itemState == 1) {
-                $('.card-state-div', elements).show();
-            } else {
-                $('.card-state-div', elements).hide();
-            }
-            if (itemState == 999) {
-                $('.card-state-div', elements).hide();
-                $('.card-created', elements).hide();
-            } else {
-                $('.card-created', elements).show();
-            }
-
-
-        });
-
+        }
 
     });
 };
