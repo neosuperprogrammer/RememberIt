@@ -3,6 +3,7 @@ var itemState = 1;
 var sortOrder = 0;
 var requestEnd = 0;
 var inRequest = 0;
+var itemCount = 0;
 
 var getStateTitle = function (id) {
 
@@ -78,6 +79,7 @@ var requestItems = function () {
                 // console.dir(">>>>>>>>>>>" + html);
                 var elements = $(html);
                 placeHolder.append(elements);
+                itemCount++;
 
 
                 if (item.forget_count == 0) {
@@ -326,6 +328,7 @@ var requestItems = function () {
 
 
             });
+            setTitle();
             pageToRequest++;
             // console.log('document height : ' + $(document).height());
             // console.log('window height : ' + $(window).height());
@@ -346,23 +349,23 @@ var setTitle = function () {
     itemState = getState();
     if (itemState == 1) {
         // document.write("Don't Know");
-        $('#main-title').text("Newly Added");
+        $('#main-title').text("Newly Added (" + itemCount + ")");
     } else if (itemState == 2) {
         // document.write("Maybe Know");
-        $('#main-title').text("1'st Turn");
+        $('#main-title').text("1'st Turn (" + itemCount + ")");
     } else if (itemState == 3) {
         // document.write("Remembered");
-        $('#main-title').text("2'nd Turn");
+        $('#main-title').text("2'nd Turn (" + itemCount + ")");
     } else if (itemState == 4) {
         // document.write("Can't forget");
-        $('#main-title').text("3'rd Turn");
+        $('#main-title').text("3'rd Turn (" + itemCount + ")");
     } else if (itemState == 5) {
         // document.write("Can't forget");
-        $('#main-title').text("Long-Term Memory");
+        $('#main-title').text("Long-Term Memory (" + itemCount + ")");
     }
     else if (itemState == 999) {
         // document.write("Can't forget");
-        $('#main-title').text("Jargonal");
+        $('#main-title').text("Jargonal (" + itemCount + ")");
     }
 
 };
@@ -409,6 +412,13 @@ function getDirty() {
     return dirty;
 }
 
+function resetVariable() {
+    pageToRequest = 1;
+    requestEnd = 0;
+    itemCount = 0;
+    inRequest = 0;
+}
+
 var updateContent = function (state) {
     // if (itemState == 1) {
     //     itemState = 2;
@@ -420,7 +430,7 @@ var updateContent = function (state) {
         setState(state)
         itemState = state;
     }
-    pageToRequest = 1;
+    resetVariable();
 
     // $('#main-title').text(itemState == 1 ? "Items to memorize" : "Items memorized");
     //
@@ -429,7 +439,6 @@ var updateContent = function (state) {
     setSortOrderTitle();
     var placeHolder = $('#content');
     placeHolder.empty();
-    requestEnd = 0;
 
     requestItems();
 };
