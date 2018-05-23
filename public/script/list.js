@@ -57,6 +57,9 @@ var requestItems = function () {
     // if (pageToRequest > 1) {
     //     $(window).scrollTop($(document).height());
     // }
+    if (pageToRequest == 1) {
+    	placeHolder.append("<div class='loading-div col-12'><div class='loading-text'><i class='fas fa-spinner fa-spin'></i></div></div>");
+    }
     itemState = getState();
     sortOrder = getSort();
     // console.log("sortOder : "  + sortOrder);
