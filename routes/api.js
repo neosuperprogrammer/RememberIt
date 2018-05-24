@@ -86,6 +86,35 @@ router.get("/items/page/:page", middleware.isLoggedIn, function (req, res) {
 //   });
 });
 
+router.get("/items/items/:start", middleware.isLoggedIn, function (req, res) {
+    var start = parseInt(req.params.start);
+    var countPerPage = parseInt(req.query.count);
+    var state = req.query.state;
+    var sort = req.query.sort;
+
+    console.log("start : " + start);
+    console.log("countPerPage : " + countPerPage);
+    console.log("state : " + state);
+    console.log("sort : " + sort);
+    var email = req.session.user.email;
+
+    Items.findByPageAndState(email, start, countPerPage, state, sort, function (err, items) {
+        if (err) {
+            var result = {
+                result: 'fail',
+                reason: err
+            };
+            res.send(result);
+        } else {
+            var result = {
+                result: 'success',
+                items: items
+            };
+            res.send(result);
+        }
+    });
+});
+
 router.get("/setting/items/delete/:state", middleware.isLoggedIn, function (req, res) {
     var state = req.params.state;
     // var state = req.query.state;

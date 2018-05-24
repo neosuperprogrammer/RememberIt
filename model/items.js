@@ -46,6 +46,7 @@ var contents = {
                 queryString = 'select * from items where user_email = ? and remember_state = ? ORDER BY created ASC LIMIT ?, ?';
             }
 
+            // console.log('query : ' + queryString);
             conn.query(queryString, [userEmail, state, start, limit], function (err, result) {
                 if (err) {
                     console.log(err);

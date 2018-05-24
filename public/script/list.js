@@ -1,4 +1,5 @@
 var pageToRequest = 1;
+var itemToRequest = 0;
 var itemState = 1;
 var sortOrder = 0;
 var requestEnd = 0;
@@ -62,13 +63,18 @@ var requestItems = function () {
     }
     itemState = getState();
     sortOrder = getSort();
+    // var start = (pageToRequest - 1) * 20;
+    var start = itemToRequest;
     // console.log("sortOder : "  + sortOrder);
-    $.getJSON("/api/items/page/" + pageToRequest + "?state=" + itemState + "&sort=" + sortOrder, {}, function (data) {
+    // $.getJSON("/api/items/page/" + pageToRequest + "?state=" + itemState + "&sort=" + sortOrder, {}, function (data) {
+    $.getJSON("/api/items/items/" + start + "?count=20&state=" + itemState + "&sort=" + sortOrder, {}, function (data) {
         $('.loading-div').remove();
         console.log(data);
         inRequest = 0;
         if(data.result == 'fail') {
-            var failReason = 'request page(' + pageToRequest + ') failed, reason : ' + data.reason;
+            // var reason = JSON.parse(data.reason);
+            var reason = JSON.stringify(data.reason, null, 4);
+            var failReason = 'request page(' + pageToRequest + ') failed, reason : ' + reason;
             console.log(failReason);
             placeHolder.append("<div class='loading-div col-6'><i class=\"fab fa-accessible-icon\"></i>  " + failReason + " </div>");
         } else {
@@ -176,6 +182,9 @@ var requestItems = function () {
                                         if (data.result == "success") {
                                             // console.log(button.parent());
                                             button.parent().parent().addClass("memorized");
+                                            itemToRequest--;
+                                            itemCount--;
+                                            setTitle();
                                             // button.text('hi');
                                         }
                                     }
@@ -193,6 +202,9 @@ var requestItems = function () {
                                         if (data.result == "success") {
                                             // console.log(button.parent());
                                             button.parent().parent().addClass("memorized");
+                                            itemToRequest--;
+                                            itemCount--;
+                                            setTitle();
                                             // button.text('hi');
                                         }
                                     }
@@ -270,6 +282,9 @@ var requestItems = function () {
                                         // console.log(button.parent());
                                         button.parent().parent().parent().parent().parent().addClass("memorized");
                                         // button.text('hi');
+                                        itemToRequest--;
+                                        itemCount--;
+                                        setTitle();
                                     }
                                 }
                             });
@@ -297,6 +312,10 @@ var requestItems = function () {
                                     if (data.result == "success") {
                                         // console.log(button.parent());
                                         button.parent().parent().parent().parent().parent().addClass("memorized");
+                                        itemToRequest--;
+                                        itemCount--;
+                                        setTitle();
+
                                         // button.text('hi');
                                     }
                                 }
@@ -339,6 +358,7 @@ var requestItems = function () {
                 });
                 setTitle();
                 pageToRequest++;
+                itemToRequest += 20;
                 // console.log('document height : ' + $(document).height());
                 // console.log('window height : ' + $(window).height());
                 if ($(document).height() <= $(window).height()) {
@@ -425,6 +445,7 @@ function getDirty() {
 
 function resetVariable() {
     pageToRequest = 1;
+    itemToRequest = 0;
     requestEnd = 0;
     itemCount = 0;
     inRequest = 0;
