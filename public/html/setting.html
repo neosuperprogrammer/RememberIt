@@ -59,7 +59,7 @@
     </style>
     <script id="item-template" type="text/template">
         <div>
-            <div style="width: 200px;padding: 0; height: 100%;float: left">
+            <div id="setting_list" style="width: 200px;padding: 0; height: 100%;float: left">
                 <div style="float: left;">
                     {{title}} :
                 </div>
@@ -169,6 +169,15 @@
                     confirmDelete(1);
                 });
 
+                $('#setting_list', element).click(function (evt) {
+                    console.log('click');
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                    setState(1);
+                    window.location.replace('/');
+
+                });
+
                 html = template({title : '1\'st Turn', 'count' : state_2_count});
                 element = $(html);
                 placeHolder = $('#item_state_2');
@@ -179,6 +188,16 @@
                     confirmDelete(2);
                 });
 
+                $('#setting_list', element).click(function (evt) {
+                    console.log('click');
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                    setState(2);
+                    window.location.replace('/');
+
+                });
+
+
                 html = template({title : '2\'nd Turn', 'count' : state_3_count});
                 element = $(html);
                 placeHolder = $('#item_state_3');
@@ -187,6 +206,14 @@
                 $('a', element).click(function (evt) {
                     evt.preventDefault();
                     confirmDelete(3);
+                });
+                $('#setting_list', element).click(function (evt) {
+                    console.log('click');
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                    setState(3);
+                    window.location.replace('/');
+
                 });
 
 
@@ -199,6 +226,15 @@
                     evt.preventDefault();
                     confirmDelete(4);
                 });
+                $('#setting_list', element).click(function (evt) {
+                    console.log('click');
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                    setState(4);
+                    window.location.replace('/');
+
+                });
+
 
                 html = template({title : 'Long-Term Memory', 'count' : state_5_count});
                 element = $(html);
@@ -210,6 +246,16 @@
                     confirmDelete(5);
                 });
 
+                $('#setting_list', element).click(function (evt) {
+                    console.log('click');
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                    setState(5);
+                    window.location.replace('/');
+
+                });
+
+
 
                 html = template({title : 'Jargonal', 'count' : state_999_count});
                 element = $(html);
@@ -220,6 +266,16 @@
                     evt.preventDefault();
                     confirmDelete(999);
                 });
+
+                $('#setting_list', element).click(function (evt) {
+                    console.log('click');
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                    setState(999);
+                    window.location.replace('/');
+
+                });
+
 
             });
         });
